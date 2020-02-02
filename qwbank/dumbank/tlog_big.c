@@ -12,7 +12,7 @@
 #include <string.h>
 #include <time.h>
 
-/* #include <gmp.h> */
+#include <gmp.h>
 
 #include "xmalloc.h"
 #include "exparray.h"
@@ -46,8 +46,7 @@ struct Account_tag
      we're okay, but 15-figure values are pushing to the limit.  Also,
      we only add and subtract for money transactions, so multiply
      overflow is not a concern.  */
-  long long balance; /* Balance in "mills", 1/1000 of a dollar.  */
-  /* mpz_t balance; */
+  mpz_t balance; /* Balance in "mills", 1/1000 of a dollar.  */
 };
 typedef struct Account_tag Account;
 EA_TYPE(Account);
@@ -59,7 +58,7 @@ struct Transfer_tag
   time_t file_date;
   unsigned short pay_from;
   unsigned short pay_to;
-  long long amount;
+  mpz_t amount;
   char *purpose;
 };
 typedef struct Transfer_tag Transfer;
@@ -75,7 +74,7 @@ struct AutoPayRule_tag
   /* Now we just fill in fields for a Transfer record.  */
   unsigned short pay_from;
   unsigned short pay_to;
-  long long amount;
+  mpz_t amount;
   char *purpose;
 };
 typedef struct AutoPayRule_tag AutoPayRule;
@@ -269,8 +268,7 @@ process_field (char *key, char *value)
       field_parse_record.account.name = xstrdup (value);
       /* Also initialize the balance to zero since we don't have a
 	 field to set it explicitly.  */
-      field_parse_record.account.balance = 0;
-      /* mpz_init (field_parse_record.account.balance); */
+      mpz_init (field_parse_record.account.balance);
     } else if (strcmp (key, "Account Type") == 0) {
       field_parse_record.account.acct_type = xstrdup (value);
     } else if (strcmp (key, "Creation Date") == 0) {
@@ -297,16 +295,24 @@ process_field (char *key, char *value)
       if (field_parse_record.transfer.pay_to == INVALID_ACCOUNT)
 	return false;
     } else if (strcmp (key, "Amount") == 0) {
-      long long dollars = 0;
+      char *decimal = strchr (value, '.');
+      /* long long dollars = 0; */
       int mills = 0;
-      sscanf (value, "$%lld.%03d", &dollars, &mills);
-      /* mpz_set_str (rop, str, 10); or mpz_init_set_str (); */
-      if (dollars < 0 && mills > 0)
+      if (decimal != NULL) {
+	*decimal = '\0';
+	sscanf (decimal + 1, "%03d", &mills);
+      }
+      mpz_init_set_str (field_parse_record.transfer.amount, value + 1, 10);
+      mpz_mul_ui (field_parse_record.transfer.amount,
+		  field_parse_record.transfer.amount, 1000);
+      if (mpz_sgn (field_parse_record.transfer.amount) < 0 && mills > 0)
 	mills = -mills; /* Take care of proper signs.  */
-      /* mpz_mul_ui (dollars, dollars, 1000); */
-      /* mpz_add_ui (dollars, dollars, mills); */
-      /* mpz_sub_ui (dollars, dollars, mills); */
-      field_parse_record.transfer.amount = dollars * 1000 + mills;
+      if (mills >= 0)
+	mpz_add_ui (field_parse_record.transfer.amount,
+		    field_parse_record.transfer.amount, mills);
+      else
+	mpz_sub_ui (field_parse_record.transfer.amount,
+		    field_parse_record.transfer.amount, -mills);
     } else if (strcmp (key, "Purpose") == 0) {
       field_parse_record.transfer.purpose = xstrdup (value);
     } else
@@ -348,12 +354,24 @@ process_field (char *key, char *value)
       if (field_parse_record.rule.pay_to == INVALID_ACCOUNT)
 	return false;
     } else if (strcmp (key, "Amount") == 0) {
-      long long dollars = 0;
+      char *decimal = strchr (value, '.');
+      /* long long dollars = 0; */
       int mills = 0;
-      sscanf (value, "$%lld.%03d", &dollars, &mills);
-      if (dollars < 0 && mills > 0)
+      if (decimal != NULL) {
+	*decimal = '\0';
+	sscanf (decimal + 1, "%03d", &mills);
+      }
+      mpz_init_set_str (field_parse_record.rule.amount, value + 1, 10);
+      mpz_mul_ui (field_parse_record.rule.amount,
+		  field_parse_record.rule.amount, 1000);
+      if (mpz_sgn (field_parse_record.rule.amount) < 0 && mills > 0)
 	mills = -mills; /* Take care of proper signs.  */
-      field_parse_record.rule.amount = dollars * 1000 + mills;
+      if (mills >= 0)
+	mpz_add_ui (field_parse_record.rule.amount,
+		    field_parse_record.rule.amount, mills);
+      else
+	mpz_sub_ui (field_parse_record.rule.amount,
+		    field_parse_record.rule.amount, -mills);
     } else if (strcmp (key, "Purpose") == 0) {
       field_parse_record.rule.purpose = xstrdup (value);
     } else
@@ -374,6 +392,7 @@ end_process_fields (void)
     /* Execute the transfer immediately.  */
     execute_transfer (&field_parse_record.transfer);
     /* Now destroy the transfer object since we no longer need it.  */
+    mpz_clear (field_parse_record.transfer.amount);
     xfree (field_parse_record.transfer.purpose);
   } else if (field_parse_type == TYPE_AUTO_PAY_RULE) {
     EA_APPEND_MULT(auto_pay_rules, &field_parse_record, 1);
@@ -399,16 +418,13 @@ execute_transfer (Transfer *transfer)
 {
   unsigned short from = transfer->pay_from;
   unsigned short to = transfer->pay_to;
-  long long amount = transfer->amount;
-  /* mpz_t amount; */
+  mpz_t *amount = &transfer->amount;
   if (transfer->file_date > report_time)
     return; /* Do not execute future transfers.  */
-  accounts.d[from].balance -= amount;
-  accounts.d[to].balance += amount;
-  /* mpz_sub (accounts.d[from].balance,
-     accounts.d[from].balance, amount);
+  mpz_sub (accounts.d[from].balance,
+	   accounts.d[from].balance, *amount);
   mpz_add (accounts.d[to].balance,
-  accounts.d[to].balance, amount); */
+	   accounts.d[to].balance, *amount);
 }
 
 bool
@@ -452,7 +468,7 @@ update_monthly_auto_pay (AutoPayRule *rule,
 
   transfer.pay_from = rule->pay_from;
   transfer.pay_to = rule->pay_to;
-  transfer.amount = rule->amount;
+  mpz_init_set (transfer.amount, rule->amount);
   transfer.purpose = rule->purpose;
 
   unsigned year1 = start->tm_year;
@@ -495,6 +511,9 @@ update_monthly_auto_pay (AutoPayRule *rule,
     }
   }
 
+  mpz_clear (transfer.amount);
+  mpz_clear (rule->amount);
+
   return true;
 }
 
@@ -515,7 +534,7 @@ update_interval_auto_pay (AutoPayRule *rule,
   Transfer transfer;
   transfer.pay_from = rule->pay_from;
   transfer.pay_to = rule->pay_to;
-  transfer.amount = rule->amount;
+  mpz_init_set (transfer.amount, rule->amount);
   transfer.purpose = rule->purpose;
 
   if (start_time < rule->payday1)
@@ -536,6 +555,9 @@ update_interval_auto_pay (AutoPayRule *rule,
     cur_time += pay_interval;
   }
 
+  mpz_clear (transfer.amount);
+  mpz_clear (rule->amount);
+
   return true;
 }
 
@@ -548,20 +570,31 @@ print_account_totals (void)
   strftime (time_buf, 128, "%Y-%m-%d %H:%M:%S", &report_cal_time);
   printf ("Account totals as of %s:\n", time_buf);
   for (i = 0; i < accounts.len; i++) {
-    long long dollars = accounts.d[i].balance / 1000;
-    int mills = accounts.d[i].balance % 1000;
+    mpz_t dollars;
+    mpz_t mills;
+    long mills_disp;
+    mpz_init (dollars);
+    mpz_init (mills);
+    mpz_tdiv_qr_ui (dollars, mills, accounts.d[i].balance, 1000);
     /* Do not display negative mills, as we already have the negative
        sign on dollars.  */
-    if (mills < 0) mills = -mills;
+    if (mpz_sgn (mills) < 0) mpz_neg (mills, mills);
     /* Do not display future accounts not yet created.  */
-    if (accounts.d[i].creation_date <= report_time)
-      printf ("%s: $%lld.%03d\n", accounts.d[i].name, dollars, mills);
+    if (accounts.d[i].creation_date <= report_time) {
+      mills_disp = mpz_get_si (mills);
+      /* dollars_str = mpz_get_str (NULL, 10, balance);
+      mills_str = mpz_get_str (NULL, 10, mills);
+      free (dollars_str);
+      free (mills_str); */
+      printf ("%s: $", accounts.d[i].name);
+      mpz_out_str (stdout, 10, dollars);
+      printf(".%03d\n", mills_disp);
+      mpz_clear (dollars);
+      mpz_clear (mills);
+      mpz_clear (accounts.d[i].balance);
+    }
     xfree (accounts.d[i].name);
     xfree (accounts.d[i].acct_type);
-    /* mpz_tdiv_qr_ui (dollars, mills, balance, 1000);  */
-    /* mpz_get_str (NULL, 10, balance); then free () result.  */
-    /* or better yet, mpz_out_str (stdout, 10, balance).  */
-    /* mpz_clear (accounts.d[i].balance); */
   }
   EA_DESTROY(accounts);
 }

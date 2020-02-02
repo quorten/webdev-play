@@ -1,7 +1,8 @@
 CC = cc
 CFLAGS =
 LDFLAGS =
-bin_PROGRAMS = autopay tlog.cgi create_account.cgi payment_form.cgi \
+bin_PROGRAMS = autopay tlog.cgi tlog_big.cgi \
+	create_account.cgi payment_form.cgi \
 	autopay_form.cgi view_logs.cgi
 
 all: $(bin_PROGRAMS)
@@ -11,6 +12,9 @@ autopay: autopay.c
 
 tlog.cgi: tlog.c xmalloc.c
 	cc -o tlog.cgi tlog.c xmalloc.c
+
+tlog_big.cgi: tlog_big.c xmalloc.c
+	cc -o tlog_big.cgi tlog_big.c xmalloc.c -lgmp
 
 dumb_cgipm.o: dumb_cgipm.c dumb_cgipm.h
 	$(CC) $(CFLAGS) -c $<
@@ -40,7 +44,7 @@ view_logs.cgi: view_logs.o dumb_cgipm.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
-	rm -f autopay tlog.cgi create_account.cgi \
+	rm -f autopay tlog.cgi tlog_big.cgi create_account.cgi \
 	  payment_form.cgi autopay_form.cgi view_logs.cgi
 	rm -f dumb_cgipm.o create_account.o payment_form.o \
 	  autopay_form.o view_logs.o
