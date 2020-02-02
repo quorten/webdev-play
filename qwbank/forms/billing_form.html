@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!-- Do this so that we render on mobile devices correctly. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Billing Form</title>
+  <style type="text/css">
+    li { margin: 0.8em 0 0.8em 0; }
+    td.l { text-align: right; }
+  </style>
+</head>
+<body>
+
+<!-- 
+* Date (auto)
+* Bill from
+* Bill to
+* Amount
+* Comment/purpose
+* Due date
+-->
+
+<h2>Billing Form</h2>
+
+<form method="post" action="submit">
+  <p>* = required</p>
+  <table>
+    <tr><td class="l"><label for="field1">Bill From*:</label></td>
+      <td><input type="text" id="field1" name="field1" /></td></tr>
+    <tr><td class="l"><label for="field2">Bill To*:</label></td>
+      <td><input type="text" id="field2" name="field2" /></td></tr>
+    <tr><td class="l"><label for="field3">Amount*:</label></td>
+      <td><input type="text" id="field3" name="field3" /></td></tr>
+    <tr><td class="l"><label for="field4">Purpose*:</label></td>
+      <td><input type="text" id="field4" name="field4" /></td></tr>
+    <tr><td class="l"><label for="field5">Due Date*:</label></td>
+      <td><input type="text" id="field5" name="field5" /></td></tr>
+    <tr><td class="l"><label for="field6">File Date:</label></td>
+      <td><input type="text" id="field6" name="field6" /></td></tr>
+  </table>
+  <p>
+    <input type="submit" value="Submit" />
+  </p>
+</form>
+  
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Useful shell scripts to batch generate and manage the minimum viable
+# product photo map system.
+
+export PM_ROOT=$PWD
+export PATH=$PATH:$PM_ROOT
+
+multi_gen.pl
+
+for DIR in A*; do
+  cd $DIR
+  gen_angle.pl 1 1
+  auto_links.fcgi -b >links.txt
+  gen_tmpl.pl links.txt $PM_ROOT/iview.html photo_overlay.html
+  cd ..
+done
+
+# Clean up those empty links if we use `iview.html'.
+find -name photo_overlay.html | \
+  xargs -d'\n' sed -i -e 's|"/photo_overlay.html"|""|g'
+
+# TODO FIXME: We need to gray out buttons that are not functional for
+# a particular view or object.  Which, in practice, means we need
+# grayed out versions of all button icons.

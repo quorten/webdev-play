@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!--[if lt IE 7]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en" xml:lang="en" class="ie6">
+<![endif]-->
+<!--[if IE 7]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en" xml:lang="en" class="ie7">
+<![endif]-->
+<!--[if IE 8]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en" xml:lang="en" class="ie8">
+<![endif]-->
+<!--[if IE 9]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en" xml:lang="en" class="ie9">
+<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en" xml:lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Photo Mapping</title>
+  <link id="internalStyle" rel="stylesheet" type="text/css"
+	href="TEMPLATE-rel_root/slim_gui/style.css" />
+</head>
+<body id="topBody"
+      style="color: white; background-color: #333348;">
+<!--  onload="bodyInit()"> -->
+
+<div id="dcwrap">
+<div id="drawingContainer">
+<!-- For text: -->
+<!-- style="margin-left: 0.5em; margin-right: 0.5em" -->
+
+<!-- Important!  If you are including SVG via the object tag, then you
+     must set target="_top" on the embedded links to get the desired
+     behavior. -->
+<object type="image/svg+xml" data="TEMPLATE-svg_cur_view">
+</object>
+
+<div id="bbspacer">&nbsp;
+<!-- Replicate the space the bottom bar takes up so that the user can
+     scroll and see the entire image. -->
+</div>
+
+</div>
+</div>
+
+<!-- NOTE: It is important to have the bottom bar placed as the last
+element in the document.  -->
+<div id="bbwrap"><form id="bottomBar" action="">
+
+   <ul class="iconBtns noSelect">
+   <li class="nbimgbtn">
+     <a class="imgbtn" id="btn-outer" title="Outer container"
+	href="TEMPLATE-outer/TEMPLATE-cur_view">
+   <span>Outer container</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-lup" title="Up layer"
+	href="TEMPLATE-layer_up/TEMPLATE-cur_view">
+   <span>Up layer</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-ldown" title="Down layer"
+	href="TEMPLATE-layer_down/TEMPLATE-cur_view">
+   <span>Down layer</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-aprev" title="Previous angle"
+	href="TEMPLATE-angle_prev/TEMPLATE-cur_view">
+   <span>Previous angle</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-anext" title="Next angle"
+	href="TEMPLATE-angle_next/TEMPLATE-cur_view">
+   <span>Next angle</span></a></li>
+   </ul><!--
+
+--><div class="spacer"></div><!--
+
+--><ul class="iconBtns noSelect">
+   <li class="nbimgbtn">
+     <a class="imgbtn" id="btn-meta" title="Linked data"
+	href="TEMPLATE-linked_data">
+   <span>Linked data</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-rawscan" title="Raw scan"
+	href="TEMPLATE-raw_scan">
+   <span>Raw scan</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-digpos" title="Digital positive"
+	href="TEMPLATE-dig_positive">
+   <span>Digital positive</span></a></li>
+   </ul><!--
+
+--><div class="spacer"></div><!--
+
+--><ul class="iconBtns noSelect">
+   <li class="nbimgbtn">
+     <a class="imgbtn" id="btn-textview" title="Text view"
+	href="TEMPLATE-text_view">
+   <span>Text view</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-vecview" title="Toggle vector/photo view"
+	href="TEMPLATE-vector_view">
+   <span>Toggle vector/photo view</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-overlays" title="Toggle overlays"
+	href="TEMPLATE-overlays">
+       <span>Toggle overlays</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-thumbs" title="Thumbnails"
+	href="TEMPLATE-thumbnails">
+   <span>Thumbnails</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-3dview" title="3D view"
+	href="TEMPLATE-3d_view">
+   <span>3D view</span></a></li>
+   </ul><!--
+
+--><div class="spacer"></div><!--
+
+--><ul class="iconBtns noSelect">
+   <li class="nbimgbtn">
+     <a class="imgbtn" id="btn-bstep" title="Step backward"
+	href="TEMPLATE-step_back">
+   <span>Step backward</span></a></li><!--
+--><li class="nbimgbtn">
+     <a class="imgbtn" id="btn-fstep" title="Step forward"
+	href="TEMPLATE-step_fwd">
+   <span>Step forward</span></a></li>
+   </ul><!--
+
+--></form></div>
+
+<script type="text/javascript"
+	src="TEMPLATE-rel_root/slim_gui/preload_buttons.js"></script>
+
+</body>
+</html>

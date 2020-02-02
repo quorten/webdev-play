@@ -1,0 +1,11 @@
+Database/form fields:
+
+Set by utility company:
+
+* Date (auto)
+* Action: Create Rule, Update Rule, Delete Rule
+* Select Rule
+* Pay from
+* Pay to
+* Bill periods (time, amount, due dates)
+* Comment/purpose

@@ -1,0 +1,29 @@
+
+    <p>
+      <button type="button" id="show-cntr-data-entry">
+      Data entry</button>
+    </p>
+    <ul class="cntr-system" id="cntr-data-entry">
+      <li><input id="data-entry-undo" name="log-action" type="radio"
+	     value="Data entry: Undo last log entry" />
+      <label for="data-entry-undo">
+	Undo last log entry
+      </label></li>
+      <li><label for="data-entry-date-time">
+	Custom date &amp; local time<br />
+	(ISO 8601 format: YYYY-MM-DD HH:MM:SS)
+      </label>
+      <br />
+      <input id="data-entry-date-time" name="log-date-time" type="text"
+	     value="" /></li>
+    </ul>
+
+    <p>
+      <input type="submit" value="Submit" />
+    </p>
+  </form>
+
+<script type="text/javascript" src="sign_logic.js"></script>
+
+</body>
+</html>

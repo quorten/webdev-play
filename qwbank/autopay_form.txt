@@ -1,0 +1,10 @@
+Database/form fields:
+
+Set by utility user:
+
+* Date (auto)
+* Action: Create Rule, Update Rule, Delete Rule
+* Select Rule
+* Pay from
+* Pay to
+* Comment/purpose

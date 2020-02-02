@@ -1,0 +1,21 @@
+Database/form fields:
+
+* Date of creation (auto)
+* Account Type: Citizen (default), business, external bank, admin
+* Name
+* Citizen ID number
+* Account ID number (auto)
+
+* Admin?  Ability to impersonate other users with ease.
+* Admins need to have separate accounts from citizens.
+
+Edit account:
+
+* Password
+* Electronic communication only?: Yes, No
+* Cash bank to process mailing
+* Mailing address
+* Mail out bank statements?: Yes, No
+* Phone number
+* E-mail address
+* Smartphone messaging (to be determined)

@@ -1,0 +1,18 @@
+Database/form fields:
+
+* Photo
+* Name
+* ID# (auto)
+* UUID (auto)
+* Issued On (auto)
+* Date of Birth
+* Naturalized On
+* Expires (default)
+
+* Height
+* Weight
+* Fur Color
+* Eye Color
+* Born At
+
+* Biography

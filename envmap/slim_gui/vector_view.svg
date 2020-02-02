@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="32"
+   height="32"
+   id="svg3447">
+  <defs
+     id="defs3457" />
+  <rect
+     width="32"
+     height="32"
+     x="0"
+     y="0"
+     id="rect3449"
+     style="fill:#111117" />
+  <path
+     d="M 15,4 15,6 25,6 25,4 15,4 z M 11,6.03125 5.21875,14 7,14 7,14.96875 12.8125,7 11,7 11,6.03125 z m 14,0 L 19.21875,14 21,14 21,14.96875 26.78125,7 25,7 25,6.03125 z m -18,11 L 7,18 5.21875,18 11,25.96875 11,25 12.8125,25 7,17.03125 z m 14,0 L 21,18 19.21875,18 25,25.96875 25,25 26.78125,25 21,17.03125 z M 15,26 l 0,2 10,0 0,-2 -10,0 z"
+     id="path3679"
+     style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Aharoni CLM;-inkscape-font-specification:Aharoni CLM" />
+  <rect
+     width="4"
+     height="4"
+     x="11"
+     y="3"
+     id="rect3681"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+  <rect
+     width="4"
+     height="4"
+     x="25"
+     y="3"
+     id="rect3683"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+  <rect
+     width="4"
+     height="4"
+     x="11"
+     y="25"
+     id="rect3685"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+  <rect
+     width="4"
+     height="4"
+     x="25"
+     y="25"
+     id="rect3687"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+  <rect
+     width="4"
+     height="4"
+     x="3"
+     y="14"
+     id="rect3689"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+  <rect
+     width="4"
+     height="4"
+     x="17"
+     y="14"
+     id="rect3691"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+</svg>

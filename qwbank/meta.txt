@@ -1,0 +1,330 @@
+Two major data types:
+
+* Transaction object
+* Image object, i.e. snapshot.
+
+A transaction object records a specific transaction, of course.  An
+image object is a snapshot of the state of the world at a particular
+point in time.
+
+The state of the world at any point in time can be computed by finding
+the nearest snapshot, then applying transactions either forward or
+backward in time until the desired time is reached.
+
+There are two types of transaction objects, manual and automatic.
+Automatic transaction objects can be computed from rules, which are of
+course manually entered.  Automatic transaction objects do not
+necessarily need to be stored in the journal.  There is a tradeoff
+here between saving disk space and saving compute time, one that also
+needs to be considered with how many snapshots there are.
+
+In the simplest implementation, that is just it.  You have transaction
+objects that you store and record, and world state that you maintain.
+This implementation is simply a free editing space where you can
+define whatever data you like that satisfies the type rules.
+
+In the more complicated case, you also have constraints.  That is,
+there are rules defined where some coded transactions would be
+considered invalid.  If edits are made backwards in time, that would
+invalidate the future, and further edits at other points forward in
+time would also need to be made to rectify the inconsistency.
+
+So, what meta-fields must every single transaction object have?
+
+* Automatic transaction?  Yes/No
+* Transaction ID.  There are effectively two separate "namespaces" for
+  manual and automatic transactions.  It's like the "high bit" is set
+  for automatic transactions.
+* Absolute date of manual entry, if applicable
+* Date -- that is, effective date of transaction
+* Source rule for automatic transaction, if applicable
+
+This assumes we provide no special functions for history editing.  You
+can create transaction objects but you cannot edit or delete them.  If
+meta-history modification is supported, we have the following
+additional fields.
+
+* Future edit status: Current/Outdated
+* Transaction ID of new record after edit, if applicable
+* Transaction ID of old record after edit, if applicable
+
+Now here we reserve an ID for a "null" transaction.  If a record is
+marked as outdated but the ID of the new record is "null", then that
+means the record was deleted.
+
+But what if undeletes are supported?  Well, then you've got to create
+a special linked record to state that the record was deleted, but you
+can still have your next and previous pointers.
+
+* Type = Deleted
+
+Also, if you want to support branching undo history without loss, you
+can also store undo entries.
+
+* Type = Undo
+
+What happens if you try to edit an automatic entry?  Ideally we
+wouldn't support that... but in the real world, yeah it could happen.
+Basically, that "pins" it and makes it manual, so you can't
+automatically delete it if the user later edits the source rule.  You
+simply hide the invalidated manual transaction away by means of
+marking it as outdated, with confirmation from the user.  If they want
+to keep it, they have to supply a further update of the form
+"undelete".
+
+Emacs-style undo, undo history management.  Two ways to do this.  One
+way is one undo entry per undo, with copy or linking to the old
+action.  Another way is to support run-length encoding on a run of
+undos.  Here we still have to scan the history to undo each action and
+account for undo of unto.  Third way is to use pointer right back to
+find location of string of undos.
+
+Finally, another important detail in banking.  Usually for all
+transactions, there needs to be a clear audit trail to find out who
+was performing the transactions, to the greatest extent possible.  For
+most objects, one of the fields can be determined to be the actor
+performing the transaction, but this field is not explicitly of the
+same name.  So, there are two ways to handle this.  One way is to
+define an abstract method to get the audit actor identity.  Another
+way is to require the value to be copied to a special meta-field.  For
+starters, we will require the abstract method.
+
+And that just about ends our meta-discussion.  As just mentioned, a
+record type is a must-have meta-record.  It determines what software
+routines are used to process a record in order to change the world
+state.  Then, of course, you have world state objects that you
+reference.  The initial state of the world is completely empty.  You
+need transaction objects that are in reference to creating world state
+objects to get the world started.
+
+For both world state objects and transaction objects, you need a way
+to dump the object out to text and parse the object in from text.
+There will be both text and binary storage facilities available for
+all objects.  Objects need local parser routines.
+
+However, there is a generic standardized key-value-record format that
+simply uses colons, newlines, and double newlines.  This is the
+preferred storage format for the entire application.
+
+With text format, fields can have default values, i.e. "null" so that
+they can be omitted from the dump when they are default to save space.
+
+Wow, sounds like there's some polymorphism involved there.  Indeed,
+there is.  That being said, I can define a generic interface for the
+world and transactions.
+
+
+So, it looks like this.
+
+
+struct GenXAction_tag
+{
+  // Automatic transaction?  Default false
+  unsigned long automatic : 1;
+  /* Transaction ID.  There are effectively two separate "namespaces"
+     for manual and automatic transactions.  It's like the "high bit"
+     is set for automatic transactions.  */
+  unsigned long xid : 31;
+  // Absolute date of manual entry, if applicable
+  time_t man_date;
+  // Date -- that is, effective date of transaction
+  time_t date;
+
+  // Source rule for automatic transaction, if applicable
+  // Technically I see no real use case for this on second thought,
+  // so leave it out for now.  We can always auto-generate later.
+  // unsigned long auto_src;
+
+  // Future edit status: Current = 0, Outdated = 1
+  unsigned edit_outdated;
+  // Transaction ID of new record after edit, if applicable
+  unsigned long new_xid;
+  // Transaction ID of old record after edit, if applicable
+  unsigned long old_xid;
+
+  // Transaction type ID
+  // Stock meta types: Deleted, Undo
+  unsigned long type_id;
+};
+
+// We populate a VTBL with one of these entries for each type ID.
+struct GenXActionVEntry_tag
+{
+  // Size of type-specific data following the generic data structure.
+  unsigned long sizeof_type;
+
+  /* Standard dumping and parsing methods, required for saving
+     transactions, of course.  Both text and binary are supported.  */
+  VIRTUAL unsigned (*text_dump)(unsigned char **buffer, unsigned long *size); // = 0;
+  VIRTUAL unsigned (*text_parse)(FILE *fp); // = 0;
+  VIRTUAL unsigned (*bin_dump)(unsigned char **buffer, unsigned long *size); // = 0;
+  VIRTUAL unsigned (*bin_parse)(FILE *fp); // = 0;
+
+  /* Apply and undo transaction: Modify the world state by the
+     according command.  No need to create or update transaction
+     objects from executing these methods.  */
+  VIRTUAL unsigned (*apply_xaction)(void); // = 0;
+  VIRTUAL unsigned (*undo_xaction)(void); // = 0;
+
+  /* Check constraints: If history has been edited, this method allows
+     checking whether transaction have become invalidated.  */
+  VIRTUAL unsigned (*check_consts)(void); // = 0;
+
+  /* Get the identity of the actor who performed a transaction.  */
+  VIRTUAL unsigned (*audit_get_actor)(unsigned char **buffer, unsigned long *size); // = 0;
+};
+
+/* Now, for world state.  This is very similar, it is a collection of
+   typed objects with methods for parsing and dumping.  Beyond that,
+   there is really no other special meta structure like for
+   transactions.  However, automation rules have some more formal
+   structure and special treatment.  */
+
+struct GenWStateObj_tag
+{
+  unsigned long auto_rule : 1; // Is this an automation rule?
+  unsigned long type_id : 31;
+  unsigned long obj_id; /// Object ids are namespaced by type ids
+  /* N.B. Technically we don't need to include this in the base class,
+     we could create a subclass, but we do this for now due to default
+     structure padding and whatnot.  */
+  /* If an automation rule, this is the date of the last automation
+     update.  */
+  time_t last_date;
+};
+
+/* Really?  But then we need a separate indexing system for account
+   names, correct?  Correct.  In general, we might need to build and
+   maintain multiple indexes.  */
+
+/* This is our more specific abstract type for automation rules.  As
+   previously discussed, just do a typedef for now.  */
+typedef GenWStateObj GenAutoRuleObj;
+
+How automation rules work.  They have check function and a last update
+time.  When the system is active, it plays "anacron" style, catch up
+all actions that should have occurred between the last run time and
+the current time.  So, we have abstract method to call just for this,
+which will end up creating automatic transactions.
+
+// We populate a VTBL with one of these entries for each type ID.
+struct GenWStateObjVEntry_tag
+{
+  /* Standard dumping and parsing methods, required for saving
+     transactions, of course.  Both text and binary are supported.  */
+  VIRTUAL unsigned (*text_dump)(unsigned char **buffer, unsigned long *size); // = 0;
+  VIRTUAL unsigned (*text_parse)(FILE *fp); // = 0;
+  VIRTUAL unsigned (*bin_dump)(unsigned char **buffer, unsigned long *size); // = 0;
+  VIRTUAL unsigned (*bin_parse)(FILE *fp); // = 0;
+};
+
+struct GenAutoRuleObjVEntry_tag
+{
+  /* Execute an automation rule to update it from its last date to the
+     new date.  If `new_date' is older than `last_date', then
+     automation rules are undone.  */
+  VIRTUAL unsigned (*update_auto_rule)(time_t new_date); // = 0;
+};
+
+Index objects are of course very simple.  First off, an index object
+acts within a single state image.  So, first you build your state
+image, then you build your index object, and transactions can update
+index objects just as they update state images.  An index object can
+always be rebuilt from a single state image.  Very basic structure.
+
+struct GenIndexRecord_tag
+{
+  void *key;
+  void *value;
+};
+typedef struct GenIndexRecord_tag;
+EA_TYPE(GenIndexRecord);
+
+struct GenIndex_tag
+{
+  unsigned long type_id; // Type ID to index
+  // Subtype ID to index, i.e. structure field
+  unsigned long subtype_id;
+  GenIndexRecord_array records; // { void *key; void *value; }
+};
+
+Lots of abstract methods here, different functions for different
+types.  Index objects are used by search functions.  If there is not a
+valid index object available, a search function can simply brute force
+it, of course.
+
+// We populate a VTBL with one of these entries for each type ID.
+struct GenIndexVEntry_tag
+{
+  /* Standard dumping and parsing methods, required for saving
+     transactions, of course.  Both text and binary are supported.  */
+  VIRTUAL unsigned (*text_dump)(unsigned char **buffer, unsigned long *size); // = 0;
+  VIRTUAL unsigned (*text_parse)(FILE *fp); // = 0;
+  VIRTUAL unsigned (*bin_dump)(unsigned char **buffer, unsigned long *size); // = 0;
+  VIRTUAL unsigned (*bin_parse)(FILE *fp); // = 0;
+
+  VIRTUAL unsigned (*init)(void); // = 0;
+  VIRTUAL unsigned (*idx_free)(void); // = 0;
+  VIRTUAL unsigned (*rebuild)(void); // = 0;
+
+  VIRTUAL unsigned (*insert)(void *key, void *value); // = 0;
+  VIRTUAL unsigned (*rename)(void *old_key, void *new_key); // = 0;
+  VIRTUAL unsigned (*delete)(void *key); // = 0;
+  VIRTUAL void * (*search)(void *key); // = 0;
+
+  /* ADVANCED: Support message queues, multiple inserts, renames, and
+     deletes are all processed together, and the system uses the
+     command queue to optimize the reorganization.  Similarly, it can
+     immediately operate on queued commands as if it were a single
+     logical data structure.  */
+};
+
+Technically, though, we don't need that much polymorphism.  The last
+block of methods, in particular, need not be polymorphic.  The code
+calling those routines will know the type in advance, and they need
+not be operated on in a generic manner.
+
+Now, here's the primary point of having a generic index structure.  It
+allows us to load and save index structures.  Otherwise, we
+technically don't need to make such a definition for an MVP
+implementation.  (The first time we try to do an `insert()', we can
+automatically call `rebuild()' if necessary, i.e. if we literally just
+do a "sequential search.")
+
+Global ID allocation variables, like for account numbers.  Now, this
+is special.  Well, not really.  For example, transaction numbers are
+allocated independently of whether the transaction has been applied or
+not.  So the same with account numbers.
+
+Okay, so enough said.  All we need to know about world objects is that
+they have a type ID, an automation type, and some abstract methods.
+
+Okay, so last thing.  World scale methods.
+
+* Load whole journal into memory
+* Concatenate new entries to journal
+* Save whole journal to disk
+* Load snapshot
+* Compute snapshot
+
+Also very important.  Elaborate our multiline field record text format
+that we were using with photo map.  Yes, so multiline records can be
+stored like this.  We support two ways, actually.
+
+Key:line1
+Key:line2
+Key:line3
+
+Or, this other shorthand also works.
+
+Key:
+:line1
+:line2
+:line3
+
+Indeed, it's very elegant, the whole point is that we maintain the
+"key:value" invariant while also adding a more convenient syntax for
+specifying multiline values.
+
+Record separators?  Simply a blank line between records, i.e. double
+newline.

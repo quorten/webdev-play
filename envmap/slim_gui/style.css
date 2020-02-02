@@ -1,0 +1,126 @@
+/**************************************/
+/* Top Level */
+
+html, body { margin: 0; padding: 0; height: 100%; }
+/* In order for the JavaScript-disabled screen to show in default
+   browser colors, we add this with a script at a later time.  */
+/* body { color: white; background-color: #333348; } */
+
+/**************************************/
+/* General */
+
+.noSelect { /* Warning: The following styles used for CSS buttons
+               may have browser compatibility issues.  */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; /* Doesn't validate */
+            cursor: default; }
+.ie-inline-block { display: inline-block; }
+.ie6 .ie-inline-block, .ie7 .ie-inline-block { display: inline; }
+
+/**************************************/
+/* Main Canvas */
+
+/* "dcwrap" is used to get rid of a scrollbar that appears if a
+   website page disclaimer must be displayed underneath the CSS
+   GUI.  */
+#dcwrap { height: 100%; overflow: hidden; }
+#drawingContainer { position: absolute; width: 100%; height: 100%;
+                    /* overflow: hidden; */ }
+.renderLayer { position: absolute; left: 0px; top: 0px; }
+
+/**************************************/
+/* Bottom Bar */
+
+#bbspacer { min-height: 34px; }
+#bbwrap { position: fixed; bottom: 0px; width: 100%; text-align: center;
+          min-height: 34px; overflow: hidden;
+          margin: 0px; padding: 0px; vertical-align: top; }
+/* Although it would be nice to have the bottom bar be a centered
+   inline-block element with transparent surrounding sides, that
+   doesn't work very well.  */
+#bottomBar { display: block; overflow: hidden;
+             margin: 0px auto; padding-left: 10px; padding-right: 10px;
+             background-color: #333348; }
+
+.iconBtns { display: inline-block; height: 34px;
+            vertical-align: top;
+            margin: 0px; padding: 0px; list-style-type: none; }
+.ie6 iconBtns, .ie7 iconBtns { display: inline; }
+.iconBtns .imgbtn
+  { border: solid white 1px; margin: 0px; padding: 0px;
+    vertical-align: top;
+    -moz-box-sizing: content-box; -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    display: inline-block; width: 32px; height: 32px;
+    background-color: red; list-style-type: none; }
+.iconBtns .nbimgbtn { display: inline-block; width: 34px; height: 34px;
+                      margin-right: 1px;
+                      background-color: red; list-style-type: none; }
+.ie6 .iconBtns .imgbtn, .ie7 .iconBtns .imgbtn { display: inline; }
+.ie6 .iconBtns .nbimgbtn, .ie7 .iconBtns .nbimgbtn { display: inline; }
+.imgbtn span { display: none; }
+.imgbtn:focus { outline: dotted red 1px; border-color: red; }
+.spacer { display: inline-block; width: 10px; margin: 0px; padding: 0px; }
+.ie6 .spacer, .ie7 .spacer { display: inline; }
+
+label img { vertical-align: middle; }
+
+/* Note: Button highlight color is "#6a6a96".  */
+
+#btn-outer { background-image: url("outer.png"); }
+#btn-outer:active /* , #btn-outer:focus */
+  { background-image: url("outer_light.png"); }
+#btn-ldown { background-image: url("layer_down.png"); }
+#btn-ldown:active /* , #btn-ldown:focus */
+  { background-image: url("layer_down_light.png"); }
+#btn-lup { background-image: url("layer_up.png"); }
+#btn-lup:active /* , #btn-lup:focus */
+  { background-image: url("layer_up_light.png"); }
+#btn-aprev { background-image: url("angle_prev.png"); }
+#btn-aprev:active /* , #btn-aprev:focus */
+  { background-image: url("angle_prev_light.png"); }
+#btn-anext { background-image: url("angle_next.png"); }
+#btn-anext:active /* , #btn-anext:focus */
+  { background-image: url("angle_next_light.png"); }
+
+#btn-meta { background-image: url("linked_data.png"); }
+#btn-meta:active /* , #btn-meta:focus */
+  { background-image: url("linked_data_light.png"); }
+#btn-rawscan { background-image: url("raw_scan.png"); }
+#btn-rawscan:active /* , #btn-rawscan:focus */
+  { background-image: url("raw_scan_light.png"); }
+#btn-digpos { background-image: url("dig_positive.png"); }
+#btn-digpos:active /* , #btn-digpos:focus */
+  { background-image: url("dig_positive_light.png"); }
+
+#btn-textview { background-image: url("text_view.png"); }
+#btn-textview:active /* , #btn-textview:focus */
+  { background-image: url("text_view_light.png"); }
+#btn-vecview { background-image: url("vector_view.png"); }
+#btn-vecview:active /* , #btn-vecview:focus */
+  { background-image: url("vector_view_light.png"); }
+#btn-overlays { background-image: url("overlays.png"); }
+#btn-overlays:active /* , #btn-overlays:focus */
+  { background-image: url("overlays_light.png");
+    /* outline: none; */ }
+#btn-thumbs { background-image: url("thumbnails.png"); }
+#btn-thumbs:active /* , #btn-thumbs:focus */
+  { background-image: url("thumbnails_light.png"); }
+#btn-3dview { background-image: url("3d_view.png"); }
+#btn-3dview:active /* , #btn-3dview:focus */
+  { background-image: url("3d_view_light.png"); }
+
+#btn-bstep { background-image: url("step_back.png"); }
+#btn-bstep:active /* , #btn-bstep:focus */
+  { background-image: url("step_back_light.png"); }
+#btn-fstep { background-image: url("step_fwd.png"); }
+#btn-fstep:active /* , #btn-fstep:focus */
+  { background-image: url("step_fwd_light.png"); }
+
+#btn-minimize { background-image: url("minimize.png"); }
+#btn-minimize:active /* , #btn-minimize:focus */
+  { background-image: url("minimize_light.png"); }

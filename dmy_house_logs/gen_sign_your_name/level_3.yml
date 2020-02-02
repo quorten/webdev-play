@@ -1,0 +1,154 @@
+---
+# Daily:
+
+- system: Library
+  codename: library
+  actions:
+    - name: "Rescan item(s)"
+      codename: rescan-items
+
+# Weekly:
+
+- system: Pantry/refrigerator
+  codename: pantry
+  actions:
+    - name: "Move item(s) home location"
+      codename: move-home-loc
+
+- system: Library
+  codename: library
+  actions:
+    - name: "Insert item(s)"
+      codename: insert-items
+    - name: "Borrow item(s)"
+      codename: borrow-items
+    - name: "Move item(s) home location"
+      codename: move-home-loc
+
+# Weekly/Monthly:
+
+- system: Dust/dirt/debris cleaning
+  codename: dust-cleaning
+  actions:
+    - name: Sweep floor
+      codename: sweep-floor
+    - name: Vacuum floor
+      codename: vacuum-floor
+
+# Monthly/Less:
+
+- system: Downstairs bathroom
+  codename: downst-bathroom
+  actions:
+    - name: Maintenance on sink
+      codename: maint-sink
+    - name: Repair on sink
+      codename: repair-sink
+    - name: Maintenance on toilet
+      codename: maint-toilet
+    - name: Repair on toilet
+      codename: repair-toilet
+
+- system: Upstairs bathroom
+  codename: upst-bathroom
+  actions:
+    - name: Maintenance on sink
+      codename: maint-sink
+    - name: Repair on sink
+      codename: repair-sink
+    - name: Maintenance on toilet
+      codename: maint-toilet
+    - name: Repair on toilet
+      codename: repair-toilet
+    - name: Maintenance on bathtub/shower
+      codename: maint-bathtub
+    - name: Repair on bathtub/shower
+      codename: repair-bathtub
+
+- system: Old master bathroom
+  codename: oldms-bathroom
+  actions:
+    - name: Maintenance on sink
+      codename: maint-sink
+    - name: Repair on sink
+      codename: repair-sink
+    - name: Maintenance on toilet
+      codename: maint-toilet
+    - name: Repair on toilet
+      codename: repair-toilet
+    - name: Maintenance on shower
+      codename: maint-shower
+    - name: Repair on shower
+      codename: repair-shower
+
+- system: New master bathroom
+  codename: newms-bathroom
+  actions:
+    - name: Maintenance on sink
+      codename: maint-sink
+    - name: Repair on sink
+      codename: repair-sink
+    - name: Maintenance on toilet
+      codename: maint-toilet
+    - name: Repair on toilet
+      codename: repair-toilet
+    - name: Maintenance on bathtub
+      codename: maint-bathtub
+    - name: Repair on bathtub
+      codename: repair-bathtub
+    - name: Maintenance on shower
+      codename: maint-shower
+    - name: Repair on shower
+      codename: repair-shower
+
+- system: Utility lines
+  codename: utility-lines
+  actions:
+    - name: Maintenance on telecommunications
+      codename: maint-telecom
+    - name: Repair on telecommunications
+      codename: repair-telecom
+    - name: Maintenance on electrical system
+      codename: maint-electrical
+    - name: Repair on electrical system
+      codename: repair-electrical
+    - name: Maintenance on sewage system
+      codename: maint-sewage
+    - name: Repair on sewage system
+      codename: repair-sewage
+    - name: Maintenance on gas system
+      codename: maint-gas
+    - name: Repair on gas system
+      codename: repair-gas
+    - name: Maintenance on fire alarm system
+      codename: maint-fire-alarm
+    - name: Repair on fire alarm system
+      codename: repair-fire-alarm
+    - name: Maintenance on water supply system
+      codename: maint-water-supply
+    - name: Repair on water supply system
+      codename: repair-water-supply
+
+- system: Appliances
+  codename: appliances
+  actions:
+    - name: Replace light bulb(s)
+      codename: maint-lighting
+    - name: Replace furnace filter
+      codename: repl-furnace-filter
+    - name: Maintenance on furnace
+      codename: maint-furnace
+    - name: Repair on furnace
+      codename: repair-furnace
+    - name: Maintenance on outside air conditioner
+      codename: ac-out-filter-clean
+    - name: Repair on outside air conditioner
+      codename: repair-ac-out
+    - name: Maintenance on garage door
+      codename: maint-garage-door
+    - name: Repair on garage door
+      codename: repair-garage-door
+    - name: Maintenance on water heater
+      codename: maint-water-heat
+    - name: Repair on water heater
+      codename: repair-water-heat

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="32"
+   height="32"
+   id="svg3543">
+  <defs
+     id="defs3553" />
+  <rect
+     width="32"
+     height="32"
+     x="0"
+     y="0"
+     id="rect3545"
+     style="fill:#111117" />
+  <rect
+     width="8.9999924"
+     height="9"
+     x="12"
+     y="12"
+     id="rect2870"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+  <path
+     d="m 30,21 -3,0 0,-9 3,0"
+     id="rect3644"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4" />
+  <path
+     d="m 2,12 3.99999,0 0,9 L 2,21"
+     id="rect3646"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4" />
+  <path
+     d="m 21,1.9999999 -10e-6,4 -8.99999,0 10e-6,-4"
+     id="rect3648"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4" />
+  <path
+     d="m 30,5.9999999 -3,0 0,-4"
+     id="rect3650"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4" />
+  <path
+     d="m 6,1.9999999 -10e-6,4 -3.99999,0"
+     id="rect3652"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4" />
+  <path
+     d="M 12.00001,30 12,27 20.99999,27 21,30"
+     id="rect3654"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4" />
+  <path
+     d="m 27,30 0,-3 3,0"
+     id="rect3656"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4" />
+  <path
+     d="M 2,27 5.99999,27 6,30"
+     id="rect3658"
+     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4" />
+</svg>

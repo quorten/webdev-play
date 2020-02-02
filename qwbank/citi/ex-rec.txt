@@ -1,0 +1,21 @@
+qw_photo:photo.jpg
+qw_name:records
+qw_idnum:0003459
+qw_uuid:UUID:DF823922-E8D8-4B21-846E-EBBD00C0BADA
+qw_issued:Two
+qw_dob:Three
+qw_nat_on:Four
+qw_expires:Five
+qwb_custom:no
+qwb_full_name:Six
+qwb_height:Seven
+qwb_weight:Eight
+qwb_fur_color:Nine
+qwb_eye_color:Ten
+qwb_born_at:Eleven
+qw_biography:Wow, this is really cool.\n\nThanks, looks interesting.\n\nLooks very great!
+qw_bio_custom:no
+qw_education:Hello.\nWow, this is nice.
+qw_employment:Try this.\nThis works well too.
+qw_crimes:Sat on store owner.\nBreathed on store owner.
+qw_exid_txt:

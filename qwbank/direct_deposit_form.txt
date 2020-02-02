@@ -1,0 +1,19 @@
+Database/form fields:
+
+Set by employee:
+
+* Date (auto)
+* Action: Create Rule, Update Rule, Delete Rule
+* Select Rule
+* Pay from
+* Pay to
+
+Set by employer:
+
+* Date (auto)
+* Action: Create Rule, Update Rule, Delete Rule
+* Select Rule
+* Pay from
+* Pay to
+* Pay periods (time and amount)
+* Comment/purpose

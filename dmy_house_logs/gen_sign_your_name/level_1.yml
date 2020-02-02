@@ -1,0 +1,332 @@
+---
+# Multiple times a day:
+
+- system: Dining
+  codename: dining
+  actions:
+    - name: Snack
+      codename: snack
+    - name: Meal
+      codename: meal
+    - name: "Serve meal(s)"
+      codename: serve-meals
+    - name: End of meal accounting
+      codename: end-of-meal-accounting
+    - name: Pack lunch
+      codename: pack-lunch
+    - name: "Serve meal to Anna"
+      codename: serve-meal-anna
+    - name: "Serve meal to Nadia"
+      codename: serve-meal-nadia
+    - name: "Serve meal to Andrew"
+      codename: serve-meal-andrew
+    - name: "Serve meal to Dad"
+      codename: serve-meal-dad
+    - name: "Serve meal to Chris"
+      codename: serve-meal-chris
+    - name: "Serve meal to Mom"
+      codename: serve-meal-mom
+
+# Daily:
+
+- system: Dishes
+  codename: dishes
+  actions:
+    - name: Start dishwasher
+      codename: start-dishwasher
+    - name: Empty dishwasher
+      codename: empty-dishwasher
+
+# Weekly:
+
+- system: Cooking
+  codename: cooking
+  actions:
+    - name: "Check-in (meta-action, deduct stock, reserve cookware, start cooking)"
+      codename: checkin
+    - name: "Check-out (meta-action, collect waste, clean cookware)"
+      codename: checkout
+    - name: Microwave cook food
+      codename: microwave
+    - name: Collect ingredients, deduct stock
+      codename: deduct-stock
+    - name: Turn on powered cooking equipment
+      codename: cook-power-on
+    - name: Turn off all powered cooking equipment
+      codename: cook-power-off
+    - name: Collect waste
+      codename: collect-waste
+    - name: Clean cookware
+      codename: clean-cookware
+
+- system: Pantry/refrigerator
+  codename: pantry
+  actions:
+    - name: "Check-in (meta-action, shopping, insert stock)"
+      codename: checkin
+    - name: Deduct empty container stock
+      codename: deduct-empty-cntr
+    - name: Insert leftovers
+      codename: insert-leftovers
+    - name: Remove leftovers
+      codename: remove-leftovers
+    - name: "Remove expired item(s)"
+      codename: remove-expired
+
+- system: Recycling
+  codename: recycling
+  actions:
+    - name: "Empty recycling bin(s) (meta-action)"
+      codename: empty-bins
+    - name: Empty kitchen recycling bin(s)
+      codename: empty-kitchen-bins
+    - name: Empty basement recycling bin(s)
+      codename: empty-basement-bins
+    - name: Empty laundry room recycling bin(s)
+      codename: empty-laundry-room-bins
+    - name: Empty downstairs bathroom recycling bin(s)
+      codename: empty-downst-bath-bins
+    - name: Empty upstairs bathroom recycling bin(s)
+      codename: empty-upst-bath-bins
+    - name: Empty old master bathroom recycling bin(s)
+      codename: empty-oldms-bath-bins
+    - name: Empty new master bathroom recycling bin(s)
+      codename: empty-newms-bath-bins
+    - name: Take out main home recycling bin(s)
+      codename: main-bins
+
+- system: Laundry
+  codename: laundry
+  actions:
+    - name: Check-in (meta-action, start first load)
+      codename: checkin
+    - name: Pre-check-out (meta-action, last load washed, washer ready)
+      codename: pre-checkout
+    - name: Check-out (meta-action, last load dried, dryer ready)
+      codename: checkout
+    - name: Start washer
+      codename: start-washer
+    - name: Empty washer
+      codename: empty-washer
+    - name: Start dryer
+      codename: start-dryer
+    - name: Empty dryer
+      codename: empty-dryer
+
+- system: Landscaping
+  codename: landscaping
+  actions:
+    - name: Start mowing lawn
+      codename: start-mowing
+    - name: Finish mowing lawn
+      codename: finish-mowing
+    - name: Start shoveling snow
+      codename: start-shovel-snow
+    - name: Stop/finish shoveling snow
+      codename: stop-shovel-snow
+    - name: Start trimming/weeding
+      codename: start-trimming
+    - name: Finish trimming/weeding
+      codename: finish-trimming
+    - name: Start watering
+      codename: start-watering
+    - name: Stop/finish watering
+      codename: stop-watering
+
+- system: Downstairs bathroom
+  codename: downst-bathroom
+  actions:
+    - name: Restock toilet paper
+      codename: restock-tpaper
+
+- system: Upstairs bathroom
+  codename: upst-bathroom
+  actions:
+    - name: Restock toilet paper
+      codename: restock-tpaper
+
+- system: Old master bathroom
+  codename: oldms-bathroom
+  actions:
+    - name: Restock toilet paper
+      codename: restock-tpaper
+
+- system: New master bathroom
+  codename: newms-bathroom
+  actions:
+    - name: Restock toilet paper
+      codename: restock-tpaper
+
+# Weekly/Monthly:
+
+- system: Downstairs bathroom
+  codename: downst-bathroom
+  actions:
+    - name: Restock liquid hand soap
+      codename: restock-soap
+    - name: Remove towels for cleaning
+      codename: remove-towels
+    - name: Insert cleaned towels
+      codename: add-towels
+    - name: Clean toilet
+      codename: clean-toilet
+    - name: Clean sink
+      codename: clean-sink
+    - name: Insert arbitrary stock
+      codename: add-cntr
+    - name: Deduct empty container stock
+      codename: deduct-empty-cntr
+
+- system: Upstairs bathroom
+  codename: upst-bathroom
+  actions:
+    - name: Restock liquid hand soap
+      codename: restock-soap
+    - name: Restock bar soap
+      codename: restock-bar-soap
+    - name: Remove towels for cleaning
+      codename: remove-towels
+    - name: Insert cleaned towels
+      codename: add-towels
+    - name: Clean toilet
+      codename: clean-toilet
+    - name: Clean sink
+      codename: clean-sink
+    - name: Clean bathtub/shower
+      codename: clean-bathtub
+    - name: Insert arbitrary stock
+      codename: add-cntr
+    - name: Deduct empty container stock
+      codename: deduct-empty-cntr
+
+- system: Old master bathroom
+  codename: oldms-bathroom
+  actions:
+    - name: Restock liquid hand soap
+      codename: restock-soap
+    - name: Restock bar soap
+      codename: restock-bar-soap
+    - name: Remove towels for cleaning
+      codename: remove-towels
+    - name: Insert cleaned towels
+      codename: add-towels
+    - name: Clean toilet
+      codename: clean-toilet
+    - name: Clean sink
+      codename: clean-sink
+    - name: Clean bathtub/shower
+      codename: clean-bathtub
+    - name: Insert arbitrary stock
+      codename: add-cntr
+    - name: Deduct empty container stock
+      codename: deduct-empty-cntr
+
+- system: New master bathroom
+  codename: newms-bathroom
+  actions:
+    - name: Restock liquid hand soap
+      codename: restock-soap
+    - name: Restock bar soap
+      codename: restock-bar-soap
+    - name: Remove towels for cleaning
+      codename: remove-towels
+    - name: Insert cleaned towels
+      codename: add-towels
+    - name: Clean toilet
+      codename: clean-toilet
+    - name: Clean sink
+      codename: clean-sink
+    - name: Clean bathtub/shower
+      codename: clean-bathtub
+    - name: Insert arbitrary stock
+      codename: add-cntr
+    - name: Deduct empty container stock
+      codename: deduct-empty-cntr
+
+- system: Billing
+  codename: billing
+  actions:
+    - name: Start paying bills
+      codename: start-pay-bills
+    - name: Finish paying bills
+      codename: finish-pay-bills
+    - name: Deposit paycheck
+      codename: deposit-paycheck
+    - name: Pay Hennepin County land tax bill
+      codename: pay-nh-ltax
+    - name: Pay New-Rez home mortgage bill
+      codename: pay-mortgage
+    - name: Pay New Hope water/sewage bill
+      codename: pay-nh-water
+    - name: Pay New Hope recycling bill
+      codename: pay-recycl-bill
+    - name: Pay Randy's Sanitation garbage bill
+      codename: pay-rs-garb-bill
+    - name: Pay CenterPoint Energy natural gas bill
+      codename: pay-cpe-natgas
+    - name: Pay Xcel Energy electricity bill
+      codename: pay-xcel
+    - name: Pay Comcast cable bill
+      codename: pay-comcast
+    - name: Pay CenturyLink phone line bill
+      codename: pay-centlink
+    - name: Pay AT&T cellular bill
+      codename: pay-att-cell
+    - name: Pay Verizon cellular bill
+      codename: pay-verz-cell
+    - name: Use over-the-air radio services
+      codename: use-ota-radio
+    - name: Use over-the-air television services
+      codename: use-ota-tv
+
+# Monthly/Less:
+
+- system: Dishes
+  codename: dishes
+  actions:
+    - name: Restock dishwashing soap
+      codename: restock-soap
+    - name: Restock dishwashing detergent
+      codename: restock-detergent
+    - name: Remove towels for cleaning
+      codename: remove-towels
+    - name: Insert cleaned towels
+      codename: add-towels
+
+- system: Pantry/refrigerator
+  codename: pantry
+  actions:
+    - name: Restock paper towels
+      codename: restock-ptowels
+    - name: Restock tissues
+      codename: restock-tissues
+
+- system: Laundry
+  codename: laundry
+  actions:
+    - name: Clean lint from washer/dryer
+      codename: clean-lint
+    - name: Restock laundry detergent
+      codename: restock-detergent
+    - name: Restock dryer tissues
+      codename: restock-dtissues
+    - name: Insert arbitrary stock
+      codename: add-cntr
+    - name: Deduct empty container stock
+      codename: deduct-empty-cntr
+
+- system: Landscaping
+  codename: landscaping
+  actions:
+    - name: Start fertilizing
+      codename: start-ftliz
+    - name: Finish fertilizing
+      codename: finish-ftliz
+    - name: Start planting
+      codename: start-planting
+    - name: Stop/finish planting
+      codename: stop-planting
+    - name: Start raking leaves
+      codename: start-rake-leaves
+    - name: Stop/finish raking leaves
+      codename: stop-rake-leaves

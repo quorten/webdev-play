@@ -1,0 +1,34 @@
+So, let's get more detailed on the implementation model!
+
+How will we do this?
+
+First of all, we start with the very basic.  Logging user actions.
+This is the primary basis from which all data unique to the system
+comes in through.  This is going to be straight and simple, the
+primary form will be a text-based logging format.  A binary format
+acts as a companion to the text format.
+
+Second to that is all the other logic capabilities.  Here is where we
+implement secondary and derived model data sets.  As a primary
+definition, we have a list of system actions or transactions.  These
+are either of human origin or machine origin.  All supported actions
+are instantaneous and must be completely serializable.  All of these
+actions must be sorted by time and stored in that sorted order in a
+machine database meant to support the function of _time travel_.  To
+easily allow random access, periodic snapshots are inserted when there
+would otherwise be too long a list of actions to traverse.
+
+In the special case of real-time current use only at the present, most
+system actions can quickly and efficiently consult the latest system
+state snapshot.
+
+Technically speaking, you don't _need_ to store machine actions as
+they can be predicted from their stored model data.  But you may still
+need to snapshot the state of machine actions so that you don't need
+to compute the models all the way from the beginning.
+
+So, yes!  In general, we have two main types of model records to
+maintain.
+
+* Action
+* State

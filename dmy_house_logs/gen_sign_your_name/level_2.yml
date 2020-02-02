@@ -1,0 +1,55 @@
+---
+# Daily:
+
+- system: Dishes
+  codename: dishes
+  actions:
+    - name: Start loading dishwasher
+      codename: start-load-dishw
+    - name: Stop loading dishwasher
+      codename: stop-load-dishw
+    - name: Start unloading dishwasher
+      codename: start-unload-dishw
+    - name: Stop unloading dishwasher
+      codename: stop-unload-dishw
+
+- system: Mail
+  codename: mail
+  actions:
+    - name: Check mail
+      codename: check-mail
+
+# Weekly/Monthly/Less:
+
+- system: Cooking
+  codename: cooking
+  actions:
+    - name: Start cooking labor
+      codename: cook-labor-start
+    - name: Stop cooking labor
+      codename: cook-labor-stop
+
+- system: Recycling
+  codename: recycling
+  actions:
+    - name: "Sort recycling bin(s)"
+      codename: sort-bins
+    - name: "Unmarketable transform (meta-action, mutate, break, depreciate)"
+      codename: unmarket-xform
+    - name: "Marketable transform (meta-action, refine, extract, recycle,
+        disassemble, manufacture, produce, assemble)"
+      codename: market-xform
+    - name: Package items for sale/donation
+      codename: package-items
+    - name: Send out packaged items
+      codename: send-packaged
+
+- system: Mail
+  codename: mail
+  actions:
+    - name: Place incoming mail shipment order
+      codename: order-incoming-mail
+    - name: Receive incoming mail shipment
+      codename: recv-incoming-mail
+    - name: "Send mail (duplicates only!)"
+      codename: send-dup-mail

@@ -1,0 +1,639 @@
+Richie Richard Robotic Bank Loans Explained
+*******************************************
+
+What is a loan in the Richie Richard Robotic Bank?  Fundamentally, it
+is a transaction object, one that grants an account holder permission
+to reach a deeper negative balance than the default debt limit rules.
+The absolute constraint is that all loans must be backed by some real
+monetary quantity that is actually available in the present, not a
+quantity that is potentially available in the future.  That being
+said, loans that are less than or equal to an account balance don't
+have very much effect in the Richie Richard Robotic Bank.
+
+A fool-proof, completely automatic way to make loans is as follows.
+There are three types of money.
+
+1. Guaranteed withdrawal money.
+
+2. Speculative withdrawal money: money deposited might never be
+   available to be withdrawn.  "Loan forgiveness fund."
+
+3. Eventual withdrawal money: money deposited might not be available
+   for withdrawal immediately, but deadlines for available withdrawal
+   at a future date can be negotiated.  This may involve court orders
+   with the debtors in order for such agreements to be reached.
+   "Unforgivable loan fund."
+
+Loans must be funded with a positive balance of some sort of money.
+Since withdrawal of #1 must be guaranteed at all times, it cannot be
+used to fund loans.  Therefore, money of types #2 and #3 must be
+deposited to fund loans.  The idea here is that the account owners of
+the positive balances deposit their money with full, unambiguous
+knowledge of the terms of its withdrawal.  If only money of types #1
+and #2 are deposited, there is never a need for bank-employed human
+judgement element.  After all, we said that the Richie Richard Robotic
+Bank cannot have any employees: all human judgement elements are
+handled by external "cash" banks.
+
+The key point to remember about loans is that the primary rare time
+there is a problem with loans is is due to a "bank run": everyone with
+positive balances in the bank wants to withdraw their full balance, to
+the point that the bank's total money balance goes negative due to the
+outstanding loans that remain.  Money type #1 makes this phenomenon
+ompletely unambiguous to account holders up front.  Money type #2
+allows for loan forgiveness.  If the requestor of a loan requests loan
+forgiveness and there is suitable reserve of #2 available, it is
+transferred to their account to reach a balance of zero.  Or, if there
+is a bank run and transferring any more money out of the bank would
+result in negative balance, the reserve of #2 is held within the bank
+to maintain positive balance when there are still outstanding loans.
+
+Money type #3 is special in that the edge case does require some sort
+of external human judgement.  So, how can this be supported in the
+Richie Richard Robotic Bank?  The key idea is that the liability and
+judgement can be passed on to a "cash" bank if needed, where there are
+the human judgement resources to handle such a matter.  If there is a
+bank run, the cash bank can notify account holders that there #3
+reserve cannot be withdrawn and negotiate a date they want that money
+available by.  The cash bank has access to the list of accounts with
+outstanding loans.  These account holders are then negotiated with to
+see if they can agree to a contract to satisfy the demands.  If they
+can't, the dispute is handled in court.  Likewise, if contract
+deadlines pass without satisfaction, these disputes are also handled
+in court.  Due to the need for litigation to settle disputes, it is
+likely that most parties, from depositors to lenders to cash banks,
+would not want to take this path unless they really want to support
+this kind of risk.
+
+Although the banks of most worlds use money type #3 exclusively,
+there's always room for other rules in other worlds!  Particularly
+noteworthy is that #3 theoretically allows a maximum of _all_ the
+money in the bank to be requested in a loan, whereas a combination of
+#1 and #2 would intrinsically never allow this.
+
+Another thing to keep in mind.  If someone requests a forgivable loan
+on _all_ such available funds in the bank and they do end up forgiving
+it, other animals will probably learn of "who done it" and might take
+the matter to court on their own terms, even though the banking system
+technically allowed it.
+
+Anyways, a combination of #1 and #2 is easiest to setup of starters,
+but #3 is potentially the most powerful.
+
+An important point to note.  When a loan is taken, the loan fund money
+is "pinned": account holders cannot transfer that money out until the
+loan is paid off.  So there needs to be additional fund attributes to
+specify how much money is pinned within the loan funds.
+
+----------
+
+Now, another useful case to consider is account closure behavior.
+What happens if a negative account is closed?  If all loans are
+forgivable, the action is easy, just forgive all outstanding loans to
+reach a balance of zero.  If the loans are unforgivable, then the
+account cannot be closed until loans are paid off to reach a balance
+of zero.  What if there is a positive balance at closure?  Now, this
+is a little bit tricky as there are two possible actions.
+
+1. The money is transferred to a forgivable loan reserve account.
+   This is tricky because if everyone transfers there money out of the
+   bank and quits using it, the money is stuck there, as there are no
+   bank employees to make manual interventions.
+
+2. The money is proportionately distributed into all account holder's
+   #2 reserve.  This achieves the same effect for lending, but it
+   doesn't have the issue of money being stuck in an inaccessible
+   account.
+
+3. This one is interesting.  A random lottery mechanism can be used to
+   determine how to divide and distribute the money.  This allows for
+   the possibility of someone randomly inheriting a lucky fortune.
+
+4. Inheritance rules can be defined for account closures with positive
+   balance.  If these become invalid, then the default choices are
+   made.
+
+5. Last resort.  If there is only one last bank account, it cannot be
+   closed unless it is empty.  There might be a last resort cash bank
+   transfer rule configured to allow closing the last non-empty
+   account.  The cash banks started first, so they'll likely still be
+   around at the end.
+
+Why not go further with the lottery and allow for lottery deposit?
+Then it is possible for animals to turn this into an industry.  Create
+a business lottery account, set the closure rules to "lottery
+type"... okay, no, they do the lottery transfers themselves, using
+their own banking automation software.  But anyways, what remains is
+the same.  Then they keep some money for themself and randomly
+transfer out the rest.
+
+Yes, then this makes things simpler for the core account software.  If
+you want your money to be gambled away at account closure, then you
+simply set an inheritance rule to the lottery account.
+
+----------
+
+Speaking of lotteries, now let's talk about stocks.  How is this
+implemented?  Well, the basis for the stock money pool must be a #2 or
+$3 type reserve to allow for uncertainty of withdrawal.  When shares
+are bought, money is deposited and divided.  When shares are sold,
+money is withdrawn and divided.  Easy as that.  There are no
+guarantees of availability for either the business or the
+shareholders.
+
+That being said, the stock market software can be implemented as a
+separate banking automation module, of course.
+
+----------
+
+Thus far, I have not mentioned interest on loans.  Indeed, the
+previous methods described allow for effective zero-interest loans.
+But, what if you want to add interest to the loans?  You can create a
+special account in the bank to collect the surplus money paid interest
+on the loans.  In the event of a forgiven/defaulted loan, you can
+withdraw from this fund to bring negative accounts back to zero.  Of
+course, as we've previously discussed, it can be problematic to have
+accounts specific to the bank.  This can be solved simply using one of
+the previously mentioned methods.  When the reserve is running high,
+it can be paid into one of the uncertain withdrawal accounts as
+interest.
+
+The primary purpose of the special reserve account for loans is to
+avoid subtracting money from account holders for paying forgiven
+loans.  But, if you are still okay with this methodology, then you can
+forgo the reserve account and deposit the interest directly into the
+member accounts.
+
+What exactly is the advantage of charging interest on loans?  In most
+banks, the following assumptions are at hand.
+
+1. The bank is old and pretty well established, so it has plenty of
+   transaction history and reserve funds to draw from.
+
+2. Plenty of loans are taken, so there are plenty of sources of
+   reserve money available from charging interest.
+
+However, if you're at a bank where the very first loan is being
+granted, charging interest on a loan really does no good to ensure
+that reserve money is available in case the loan is
+forgiven/defaulted.
+
+Fundamentally, in this bank, charging interest on loans is the only
+way for the bank to get surplus money.  The only other way to get
+surplus money would be to charge account holders a "tax."  However, in
+this bank, such a "tax" is discretionary through the use of typifying
+money into accounts with different rules on withdrawal reliability.
+
+----------
+
+Let's make a really super-slick summary here.  Three types of money in
+the bank and their effects on a creditor and a debtor, if there are
+only one of each in the whole banking system.
+
+1. Creditor: Guaranteed withdrawal of deposited money  
+   Debtor: Guaranteed denial of requested loans
+
+2. Creditor: Speculative withdrawal of deposited money  
+   Debtor: Speculative granting of forgivable loans
+
+3. Creditor: Eventual withdrawal of deposited money  
+   Debtor: Speculative granting of unforgivable loans
+
+Another useful analogy to understand this.
+
+1. "Checking account"
+
+2. "Stock investments," speculative savings account
+
+3. "Savings account" or "time deposits"
+
+----------
+
+Some final clarifying discussion.  All loans discussed thus far can
+also be described as "unsecured loans," meaning that the borrower does
+not need to pledge any asset.  In the case of forgivable loans, the
+creditors/investors pledge their monetary assets as collateral.  The
+goal, of primarily supporting unsecured loans is so that the Richie
+Richard Robotic Bank can function completely automatically with zero
+employees.  A loan that is secured against a tangible physical asset
+requires an animal to physically steal that tangible physical asset.
+
+Previously, it was stated that for unforgivable loans, outstanding
+liabilities can be passed down to cash banks that have employees who
+can file lawsuits and handle the litigation to resolve the dispute.
+
+However, secured loans, especially loans that secure tangible physical
+assets as collateral, simply cannot be made in any capacity at the
+Richie Richard Robotic Bank.  These loans must be made at a cash bank
+where there are employees with the capacity to steal away the secured
+items if the borrower does not pay back their loan.  This method of
+economic activity is most applicable at PQB: a secured loan is made at
+the PQB Bank that pledges that Packer Bear has the right to steal the
+named item if the loan fails to get paid.  If the loan is not paid,
+Packer Bear can steal the item and sell it at PQB to recover the lost
+money.  Since Packer Bear is the store owner, Packer Bear can set the
+prices exactly to the amount of money owed, without worrying that the
+market value of the item would put Packer Bear at a loss when the item
+is sold.  Furthermore, the ability of Packer Bear to retain the item
+in store until it is sold guarantees it will not leave Packer Bear's
+possession until it is sold at the loaned value, unless it too is
+stolen.
+
+Dusty's Clubhouse Bank, by contrast, cannot make secured loans with as
+little risk as the PQB Bank can make.  Once Dusty's Clubhouse Bank
+steals the pledged item, Dusty's Clubhouse Bank needs to sell it at a
+store like PQB to recover the money.  Unfortunately, Packer Bear at
+PQB might not be willing to pay as much money for the item as was
+loaned to the borrower.  Also, unlike PQB, the Dusty's Clubhouse Bank
+doesn't have nearly as much space to securely store and physically
+possess items until they are sold to recover the loaned value.
+
+Now, even in the case of the PQB Bank, there can be problems with
+secured loans.  Suppose Packer Bear has stolen Dusty's birthday crown
+and has it for sale in PQB for $1,000,000 Dusty Dollars, since that
+was the money owed from the unpaid loan.  It sits in the store for
+months, and Packer Bear gets all burred up about there being too much
+garbage in the store.  So, Packer Bear decides to just throw it out of
+the store.  If the loan was entirely based off of reserve money from
+the PQB Bank, then the end is as simple as this: Packer Bear doesn't
+earn back the money taken out for the loan.  But, if a loan was taken
+out of the Richie Richard Robotic Bank so that the PQB Bank could fund
+a secured loan, then that loan must either be forgiven/defaulted or
+Packer Bear must come up with a change in plan on how it will be paid
+back.
+
+----------
+
+Another important type of loan.  It doesn't make too much of a
+difference to creditors, only debtors... maybe.
+
+Notorized forgivable loan.  This kind of loan is a forgivable loan,
+but unlike the other kind of forgivable loan where the loan can be
+forgiven at the discretionary request of the lender, this type of loan
+can only be forgiven by court order.  In all other respects, this type
+of loan is very similar to an unforgivable loan, but it does not carry
+the risk of outstanding liabilities that may need to be passed down to
+cash banks.
+
+Given that the loan forgiveness is only by court order... technically
+you could argue this should be a money type of its own.  This one,
+after all, guarantees that creditors will not have their money
+withdrawn to forgive a loan until they receive news of the lawsuit,
+and this gives them a chance to participate in the court decision.
+
+For the sake of this type of loan, you may want to also allow
+configuration where only a small number of parties are involved in the
+loan, rather than everyone in the bank, since this limits the number
+of animals who are potentially involved in court.
+
+----------
+
+Now, this idea is interesting.  What if someone takes a forgivable
+loan, they have their loan forgiven, but then they later decide they
+can pay it all back?  What do you do?  Well, you can create a special
+loan payment finishing option where their money can be distributed
+across all accounts.  Now, this is a rather unusual idea.  Why would
+you want to do that when depositing all additional earnings into the
+#2 reserve is functionally identical for loan behavior?  Simply put,
+the idea of this is the statement that such money is really not in any
+way personally owned by you.  By definition, money that is in your #2
+reserve is readily transferable by you without asking for permission.
+Loan money can only be acquired by requesting permission.
+
+Yeah, so loan forgiveness is not final.  I guess in the same vein, you
+can deforgive a loan if you so wish.  However, completely paying off a
+loan _is_ final.
+
+----------
+
+We've talked about loans extensively as being the means that allows
+accounts to go negative, but not much about the default debt limits.
+In the cash banks, debt limits are pretty lax and rule of thumb, but
+we can make more precise rules for the Richie Richard Robotic Bank.
+There is only a default allowable debt for personal debt, not business
+debt.  However, personal debt must also be backed by loan reserves.
+If personal debt is so great that this is not possible, then the
+ability to withdraw any more money is halted.  Also, we have an
+absolute limit on default allowable personal debt.  If there is
+additional loan reserve money to handle this, a loan must be applied
+for to grant the permission to use it.
+
+This, of course, is if you want to enforce a model where there can
+never be any outstanding liabilities to an external cash bank.  If, by
+contrast, you are okay with the possibility out outstanding
+liabilities, then you can simply set a fixed personal debt limit
+without any restrictions.
+
+----------
+
+Here is one of the general rules of thumb with probably the typical
+operation of the Richie Richard Robotic Bank.  By definition, the
+Richie Richard Robotic Bank is pretty much richer than all other
+banks.  Therefore, the idea of potentially passing on outstanding
+liabilities to external banks is a precarious one: without other
+constraints in place, this could be a liability so big that it is
+nearly impossible for a cash bank to handle this.  Not allowing any
+outstanding liabilities sidesteps this issue entirely.
+
+Another option is to allow some outstanding liabilities, but the total
+outstanding liability is capped.  Alas, literally with the Richie
+Richard Robotic Bank, such an allowance would be miniscule, so why
+bother?  Most of the allowance money would be supporting the strict
+positive balance, and adding an allowance for a small balance of
+outstanding liabilities is counting pennies.
+
+In other words, the Richie Richard Robotic Bank must also be able to
+function as "the lender of last resort."
+
+----------
+
+Regarding the limits on lending, there's a lot of rules and default
+settings programmed into the Richie Richard Robotic Bank.  What if the
+citizens want some of these rules changed?  How do they go about
+getting them changed?  Two options:
+
+1. The rules cannot be changed.  The magical, mystical fairy box runs
+   without any understanding of how it works.
+
+2. The rules can be changed only by court rulings or votes.
+
+Or, another option, and probably the best one.  Virtually all rules
+and policies that you could apply globally across the bank and dispute
+between are discretionarily available to account holders.  Every
+sub-type of money account is supported, and account holders can
+individually determine how they want to deposit their money.  This
+effectively allows virtually the same behavior even with court orders,
+it's just that the means to that end relies on citizens deforgiving
+changing the proportions of money types in their account, rather than
+software changes from the magical mystical fairies above.
+
+Whether you want a full reserve bank, fractional reserve bank, or
+anything in between, the decision lies in the account holders that can
+pick the policies as they please.
+
+----------
+
+It's important to note that even with forgivable loans, if the
+forgivable loan taken is really huge, the account holders might
+contest the sudden loss, decide that putting their money in the
+forgivable loan fund was not really what they wanted, and file a class
+action lawsuit.  The settlement in court can effect switching the loan
+from a forgivable loan to an unforgivable loan.  In general, any
+monetary transfer, regardless of what information is placed on the
+books, can be disputed.
+
+Regarding loans, the sysstem should provide documentation of who is
+pinning money for taking out loans.  Additionally, there could even be
+an option for anonymous loans that draw from all account holder's fund
+pools.
+
+But, especially in the case of very large loans, even if the loan is
+booked as "anonymous," the animals will probably find out who did it.
+
+----------
+
+How does economic growth and expansion work?  Pretty similar to the
+economies of other worlds, and even in Quacky's World.  First, the
+growth in demand must be anticipated in advance.  If necessary, new
+money is created at a mint.  The new mint money is then sent to
+businesses or individuals.  That money is stored in reserve capital.
+When new business arrives and trade effectively increases, the reserve
+capital is paid out to the new players, and that completes its
+circulation in the economy corresponding to the new growth in goods
+and services.
+
+How is a shrinking economy handled?  Basically, the reverse process.
+The players exiting the economy send off their money to the remaining
+players, which then mainly becomes reserve capital.  Then they just
+keep more money in the bank... or, if they really don't want it, they
+can send it back to the mint where it came from.  "Send it all back to
+the magic piece of doost that it came from."
+
+Inflation/deflation?  That mainly happens in economies eager to change
+price points of goods and services.  When this happens, but the total
+amount of trade, i.e. transactions, in the economy remains the same,
+the effective reserve capital shrinks or grows.
+
+----------------------------------------
+
+Okay, now we need to refresh our super-slick summary with updated and
+more detailed information.
+
+In general, any monetary transfer, regardless of what information is
+placed on the books, can be disputed.  Therefore, all account types
+need a method of dispute resolution.
+
+These are the actions that can be performed regarding loans:
+
+* Grant/Deny
+* Cancel
+* Reduce loaned quantity
+* Increase loaned quantity
+* Forgive
+* Deforgive
+* Pay off
+* "Future pay off," deposit positive balance to loan funds
+
+In terms of loan policies, there are a few different types of money as
+follows.  To start the discussion, three very basic money types are
+covered in a basic bank system with only one money policy, one
+creditor, and one debtor.
+
+1. * Creditor: Guaranteed withdrawal of deposited money
+   * Debtor: Guaranteed denial of requested loans
+   * Interest: None
+   * Permission requests: None
+   * Loan anonymity: Not applicable
+   * Transfer restrictions: None
+   * Bank balances: Guaranteed positive balances
+   * Loan dispute resolution: Not applicable
+   * Common buzzwords: Full-reserve banking system, checking account
+
+2. * Creditor: Speculative withdrawal of deposited money
+   * Debtor: Speculative granting of forgivable loans
+   * Interest: None
+   * Permission requests: None
+   * Loan anonymity: Banking system discloses identity of debtor to
+     creditor(s)
+   * Transfer restrictions: Money pinned for loans cannot be
+     transferred to a different money type of same account
+   * Bank balances: Guaranteed positive balance for bank, positive
+     balance for creditor, negative balance for debtor
+   * Loan dispute resolution: Out-of-court orders to cancel loan,
+     court orders to cancel loan, out-of-court orders to pay off loan,
+     court orders to pay off loan
+   * Common buzzwords: ?, similar to stock market investments
+
+3. * Creditor: Eventual withdrawal of deposited money  
+   * Debtor: Speculative granting of unforgivable loans
+   * Interest: None
+   * Permission requests: None
+   * Loan anonymity: Banking system discloses identity of debtor to
+     creditor(s)
+   * Transfer restrictions: Money pinned for loans cannot be
+     transferred to a different money type of same account
+   * Bank balances: Potential negative balance for bank, positive
+     balance for creditor, negative balance for debtor.  However, bank
+     balance can only go negative if (1) loan funding money not pinned
+     or (2) if a loan is taken for more money than is in the entire
+     bank.
+   * Loan dispute resolution: Out-of-court orders to cancel loan,
+     court orders to cancel loan, out-of-court orders to pay off loan,
+     court orders to pay off loan
+   * Common buzzwords: Fractional-reserve banking system, savings
+     account, time deposits
+
+----------
+
+The discussion that follows results in a much more complicated banking
+system.  There are a variety variables that can be configured on the
+sides of the creditor and debtor.  The idea here is that creditors can
+create a small number of account sub-types and assign values to the
+variables based off of what policy they want.  In order for a loan to
+be granted, there must be adequate creditor account balances available
+to match the request of a debtor.  Otherwise, debtors are given the
+option to either modify their loan options to the nearest match, or
+debtors can negotiate with creditors to make such loan account funds
+available.
+
+Creditors can request that a minimum interest be paid on a loan.  In
+this case, loan requests can only be granted when the loan specifies
+an interest that is greater than or equal to the interest specified by
+the creditors.  The effect of paying interest on a loan that is
+completely paid off is that the creditor has additional money
+deposited into their account, paid as interest on their positive
+balance.  If a lender wants to request a loan that pays more than the
+minimum interest, the creditor gets a bonus beyond their minimum
+expectation.
+
+Creditors can configure loan funds to require permission requests on
+certain loan actions:
+
+* Grant
+* Increase loaned quantity
+* Forgive
+
+Permission requests can either be negotiated/settled in one of two
+ways:
+
+* Out-of-court
+* In-court
+
+Creditors can state that only in-court settlements are permitted for
+their loan funds.
+
+These loan actions do not make sense to require a permission request,
+because the creditor will gladly accept the money:
+
+* Cancel
+* Reduce loaned quantity
+* Deforgive
+* Pay off
+* "Future pay off," deposit positive balance to loan funds
+
+----------
+
+A final element to be addressed of loaning is that of plurality.  With
+a simple two-account banking system, there is only ever one creditor
+and one debtor, and they obviously know each other.  But, with many
+more accounts in the bank, there is the possibility of taking loans
+from funds set aside in only a few accounts versus taking loans from
+funds set aside in all accounts.  Also, on the side of taking loans
+from as many accounts as possible, the lender might want some
+semblance of anonymity, except when identity must be disclosed by
+court order.
+
+So, there are two additional variables/dimensions by which loans can
+be funded and requested.
+
+* Plurality.  What degree of public funding is allowed?  The creditor
+  can set the maximum number of creditors for which the loan fund is
+  allowed for, or simply set "everyone."  Likewise, the debtor can set
+  who will fund the loan, or simply set "everyone."
+
+  Setting a smaller plurality is useful for easing the handling of
+  permission requests and dispute resolution.  In other words, it
+  makes it practical to require permission requests and notifications
+  on lending actions.
+
+* Anonymity.  Anonymity is only practically applicable for loans that
+  involve a large number of creditors.  How many?  This might just
+  be a rule of thumb, but say more than 30.
+
+  This may be a bit tough to implement, but one or more loan
+  attributes can be pledged anonymous.  If identity and contact
+  information is pledged anonymous, permission requests but be
+  negotiated by a party that can convey communications anonymously.
+
+  Suffice it to say, anonymous loans work best with loans that (1) are
+  "everyone" plurality, (2) are forgivable, and (3) require no
+  permission requests.
+
+----------------------------------------
+
+Notable financial institutions outside of the Richie Richard Robotic
+Bank.
+
+Supported institutions:
+
+* Cash bank, a bank with a physical presence and employees for
+  processing cash, paper checks, mailing bank statements, granting
+  secured loans, and handling disputes in court
+* Mint or Federal Reserve
+
+Unsupported institutions.  In other worlds, these institutions may be
+critical to the operation of a bank:
+
+* Stock market
+* Credit card companies
+* Credit rating agencies
+
+----------------------------------------
+
+So, you're wondering about existing implementations of a toy bank?
+Look no further than the subject of in-game economies.
+
+20190317/https://en.wikipedia.org/wiki/Virtual_economy
+
+Alas, you'll realize what the here.  The vast majority of these
+virtual economies are based in proprietary software.  The _de facto_
+approach is for every game developer to code up their own economic
+model from scratch.  The idea of reusable code bases is a foreign one.
+
+Also, what appears to be conspicuously missing from most virtual
+economies is loaning.  Most virtual economies operate with tons of
+opportunities to earn money, so there are generally zero loans.  Also,
+as a consequence of the large influx of money but very little in the
+way of money sinks, there tends to be a lot of inflation, coined as
+_mudflation_.
+
+In these games, there is a lot of focus on adding money sinks as a
+means of inflation control.  However, there is very little focus on
+controlling inflation by decreasing the influx of money.
+
+----------------------------------------
+
+2019-03-26
+
+So, here's some of the keys as to how the economy works in this game.
+Much of the economic function is determined by the combination of
+personal finance strategy and business strategy.
+
+At the outset, these strategies can be planned and put in place by a
+system of auto-billing, auto-paying, and policy configuration.
+
+Afterwards, the automated rules can be run on "autopilot" until some
+breaking condition is met, such as bankruptcy.  Then, a change in
+strategy is needed.
+
+Also, another fundamental concept is that money, being a symbol, can
+have its meaning disputed.  When there are no disputes, autopilot is
+perfect.  But, dispute resolution, when it must happen, is necessarily
+a manual process, whether it be out-of-court or in-court.
+
+If you can also find a way to automate changes in strategy and dispute
+resolution, then your auto-billing, auto-paying machine isn't just a
+tool under your command.  It is a sentient being of its own right, so
+it gets paid rather than you.  Then you're back to the drawing board
+to develop your own strategy and dispute resolution to plug yourself
+back into the economy.

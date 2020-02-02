@@ -1,0 +1,418 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!-- Do this so that we render on mobile devices correctly. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Citizen Form</title>
+  <style type="text/css">
+    li { margin: 0.8em 0 0.8em 0; }
+    td.l { text-align: right; }
+    input.a { width: 20em; }
+  </style>
+  <script type="text/javascript">
+    <!--//--><![CDATA[//><!--
+    /*
+
+@licstart  The following is the entire license notice for the
+JavaScript code in this page.
+
+Public Domain 2019 Andrew Makousky
+
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit
+of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to this
+software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org>
+
+@licend  The above is the entire license notice for the JavaScript
+code in this page.
+
+    */
+    //--><!]]>
+  </script>
+</head>
+<body>
+
+<!--
+
+More fields to add:
+
+* Things I did
+* QW Home address
+* QW Contact information
+* Health records
+
+* Animal type: Bear, Bunny, Cat, Dog, Other
+* Material composition
+** Contains metal
+*** Magnetic metal
+*** Non-magnetic metal
+*** Aluminum
+** Contains electronics
+** Stuffing
+** Plastic/polyurethane beads/pellets
+** Beans
+** Polyester fabric
+** Additional information
+* Fur type
+** Short fuzz
+** Furry
+** Bundles
+* International travel status (library checkin/checkout)
+* International point of contact (library lender)
+* Real health records
+* Intellectual property status
+** Designer
+** Copyright status
+** Relevant trademarks
+** Technical patents
+** Design patents
+** Used under license?  Yes, No!  Designed by hobbyist
+* Manufacturer
+
+-->
+
+<h2>Citizen Form</h2>
+
+<form method="post" enctype="multipart/form-data" action="citizen_submit">
+
+  <!-- <pre id="el-display"></pre> -->
+  <p>
+    Mode:
+    <input type="radio" id="q-mode-create" name="q-mode" value="create"
+	   checked="checked" />
+    <label for="q-mode-create">Create</label>
+    <input type="radio" id="q-mode-edit" name="q-mode" value="edit" />
+    <label for="q-mode-edit">Edit</label>
+    &nbsp;&nbsp;
+    <button type="button" id="btn-load">Load</button>
+  </p>
+
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+// Clear/reset all form fields except for 'q-name'.
+function clear_fields() {
+  // document.getElementById('q-name').value = '';
+  document.getElementById('q-idnum').value = '';
+  document.getElementById('q-uuid').value = '';
+  document.getElementById('q-issued').value = '';
+  document.getElementById('q-dob').value = '';
+  document.getElementById('q-nat-on').value = '';
+  document.getElementById('q-expires').value = '';
+  document.getElementById('qb-custom-no').checked = true;
+  document.getElementById('qb-full-name').value = '';
+  document.getElementById('qb-height').value = '';
+  document.getElementById('qb-weight').value = '';
+  document.getElementById('qb-fur-color').value = '';
+  document.getElementById('qb-eye-color').value = '';
+  document.getElementById('qb-born-at').value = '';
+  document.getElementById('q-biography').value = '';
+  document.getElementById('q-bio-custom-no').checked = true;
+  document.getElementById('qa-lochome').value = '';
+  document.getElementById('qa-edu').value = '';
+  document.getElementById('qa-employ').value = '';
+  document.getElementById('qa-crimes').value = '';
+  document.getElementById('qa-exid-txt').value = '';
+}
+
+var btn_load = document.getElementById('btn-load');
+btn_load.onclick = function(event) {
+  var name = document.getElementById('q-name').value;
+  // Hack to make absolutely sure that we refresh when possible.
+  var url = 'records/' + name.replace(/#/g, "%23") + '.txt?';
+  var httpRequest = new XMLHttpRequest();
+  httpRequest.onreadystatechange = function(event) {
+    if (!httpRequest)
+      return;
+    if (httpRequest.readyState == 4) {
+      // DONE
+      // document.getElementById('el-display').innerHTML =
+      //   httpRequest.responseText;
+      var photo_info;
+      var lines = httpRequest.responseText.split("\n");
+
+      if (httpRequest.status == 200 && name != 'new')
+        document.getElementById('q-mode-edit').checked = true;
+      else // if (httpRequest.status == 404)
+        document.getElementById('q-mode-create').checked = true;
+
+      // In case of missing fields, clear all fields (except name) first.
+      clear_fields();
+
+      // Update the document hash.
+      if (name == 'new') {
+        /* Clear '#new' from the URL so that if the user refreshes by
+           accident, we won't clear everything that they entered but did
+           not yet submit.  */
+        /* But, there is still a caveat.  Doing this clears the
+           history stack forward from the current page.  */
+        window.location = '#';
+      } else
+        window.location = '#' + name;
+
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (line.indexOf('qw_photo:') == 0) {
+          var skip = 'qw_photo:'.length;
+          photo_info = line.substring(skip);
+          document.getElementById('q-photo').value = line.substring(skip);
+        } else if (line.indexOf('qw_name:') == 0) {
+          var skip = 'qw_name:'.length;
+          document.getElementById('q-name').value = line.substring(skip);
+        } else if (line.indexOf('qw_idnum:') == 0) {
+          var skip = 'qw_idnum:'.length;
+          document.getElementById('q-idnum').value = line.substring(skip);
+        } else if (line.indexOf('qw_uuid:') == 0) {
+          var skip = 'qw_uuid:'.length;
+          document.getElementById('q-uuid').value = line.substring(skip);
+        } else if (line.indexOf('qw_issued:') == 0) {
+          var skip = 'qw_issued:'.length;
+          document.getElementById('q-issued').value = line.substring(skip);
+        } else if (line.indexOf('qw_dob:') == 0) {
+          var skip = 'qw_dob:'.length;
+          document.getElementById('q-dob').value = line.substring(skip);
+        } else if (line.indexOf('qw_nat_on:') == 0) {
+          var skip = 'qw_nat_on:'.length;
+          document.getElementById('q-nat-on').value = line.substring(skip);
+        } else if (line.indexOf('qw_expires:') == 0) {
+          var skip = 'qw_expires:'.length;
+          document.getElementById('q-expires').value = line.substring(skip);
+        } else if (line.indexOf('qwb_custom:') == 0) {
+          var skip = 'qwb_custom:'.length;
+          var value = line.substring(skip);
+          var ctl_yes = document.getElementById('qb-custom-yes');
+          var ctl_no = document.getElementById('qb-custom-no');
+          if (value == 'yes')
+            ctl_yes.checked = true;
+          else
+            ctl_no.checked = true;
+        } else if (line.indexOf('qwb_full_name:') == 0) {
+          var skip = 'qwb_full_name:'.length;
+          document.getElementById('qb-full-name').value = line.substring(skip);
+        } else if (line.indexOf('qwb_height:') == 0) {
+          var skip = 'qwb_height:'.length;
+          document.getElementById('qb-height').value = line.substring(skip);
+        } else if (line.indexOf('qwb_weight:') == 0) {
+          var skip = 'qwb_weight:'.length;
+          document.getElementById('qb-weight').value = line.substring(skip);
+        } else if (line.indexOf('qwb_fur_color:') == 0) {
+          var skip = 'qwb_fur_color:'.length;
+          document.getElementById('qb-fur-color').value = line.substring(skip);
+        } else if (line.indexOf('qwb_eye_color:') == 0) {
+          var skip = 'qwb_eye_color:'.length;
+          document.getElementById('qb-eye-color').value = line.substring(skip);
+        } else if (line.indexOf('qwb_born_at:') == 0) {
+          var skip = 'qwb_born_at:'.length;
+          document.getElementById('qb-born-at').value = line.substring(skip);
+        } else if (line.indexOf('qw_biography:') == 0) {
+          var skip = 'qw_biography:'.length;
+          var value = line.substring(skip);
+          value = value.replace(/\\n/g, "\n").replace(/\\\\/g, "\\");
+          document.getElementById('q-biography').value = value;
+        } else if (line.indexOf('qw_bio_custom:') == 0) {
+          var skip = 'qw_bio_custom:'.length;
+          var value = line.substring(skip);
+          var ctl_yes = document.getElementById('q-bio-custom-yes');
+          var ctl_no = document.getElementById('q-bio-custom-no');
+          if (value == 'yes')
+            ctl_yes.checked = true;
+          else
+            ctl_no.checked = true;
+        } else if (line.indexOf('qw_lochome:') == 0) {
+          var skip = 'qw_lochome:'.length;
+          document.getElementById('qa-lochome').value = line.substring(skip);
+        } else if (line.indexOf('qw_education:') == 0) {
+          var skip = 'qw_education:'.length;
+          var value = line.substring(skip);
+          value = value.replace(/\\n/g, "\n").replace(/\\\\/g, "\\");
+          document.getElementById('qa-edu').value = value;
+        } else if (line.indexOf('qw_employment:') == 0) {
+          var skip = 'qw_employment:'.length;
+          var value = line.substring(skip);
+          value = value.replace(/\\n/g, "\n").replace(/\\\\/g, "\\");
+          document.getElementById('qa-employ').value = value;
+        } else if (line.indexOf('qw_crimes:') == 0) {
+          var skip = 'qw_crimes:'.length;
+          var value = line.substring(skip);
+          value = value.replace(/\\n/g, "\n").replace(/\\\\/g, "\\");
+          document.getElementById('qa-crimes').value = value;
+        } else if (line.indexOf('qw_exid_txt:') == 0) {
+          var skip = 'qw_exid_txt:'.length;
+          var value = line.substring(skip);
+          value = value.replace(/\\n/g, "\n").replace(/\\\\/g, "\\");
+          document.getElementById('qa-exid-txt').value = value;
+        }
+      }
+
+      var a_cntr;
+      if (name == 'new') {
+        // Add new photo.
+        var photo = document.createElement('img');
+        photo.alt = 'photo of ' + name;
+        photo.width = 128;
+        photo.height = 96;
+        photo.src = 'Citizens2/thumbnails/' + name.replace(/#/g, "%23") + '.png';
+        a_cntr = document.createElement('a');
+        a_cntr.appendChild(photo);
+        a_cntr.href = 'Citizens2/' + name.replace(/#/g, "%23") + '.png';
+      } else if (photo_info == 'Citizens2') {
+        // Add Citizens2 photo.
+        var photo = document.createElement('img');
+        photo.alt = 'photo of ' + name;
+        photo.width = 128;
+        photo.height = 96;
+        photo.src = 'Citizens2/thumbnails/' + name.replace(/#/g, "%23") + '.jpg';
+        a_cntr = document.createElement('a');
+        a_cntr.appendChild(photo);
+        a_cntr.href = 'Citizens2/' + name.replace(/#/g, "%23") + '.jpg';
+      } else {
+        // Load a default photo if we can.
+        var photo = document.createElement('img');
+        photo.alt = 'photo of ' + name;
+        photo.width = 128;
+        photo.height = 96;
+        photo.src = 'Citizens/thumbnails/' + name.replace(/#/g, "%23") + '.JPG';
+        a_cntr = document.createElement('a');
+        a_cntr.appendChild(photo);
+        a_cntr.href = 'Citizens/' + name.replace(/#/g, "%23") + '.JPG';
+      }
+      var photo_cntr = document.getElementById('photo-cntr');
+      // Delete all child nodes first.
+      while (photo_cntr.firstChild) {
+        photo_cntr.removeChild(photo_cntr.firstChild);
+      }
+      photo_cntr.appendChild(a_cntr);
+    }
+  };
+  httpRequest.open("GET", url, true);
+  /* Configure headers to force refresh.  We don't want to
+     accidentally revert a previous edit due to fetching stale
+     information.  */
+  httpRequest.setRequestHeader("Expires", "Mon, 1 Jan 1990 00:00:00 GMT");
+  httpRequest.setRequestHeader("Cache-Control", "no-cache");
+  httpRequest.setRequestHeader("Pragma", "no-cache");
+  // httpRequest.channel.loadFlags |=
+  //   Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
+  httpRequest.send();
+};
+//--><!]]>
+</script>
+
+  <p>* = required</p>
+  <h3>General Information</h3>
+  <div id="photo-cntr"></div>
+  <table>
+    <tr><td class="l"><label for="q-photo">Photo:</label></td>
+    <!-- <td><input id="q-photo" name="q-photo" type="file" accept="image" /></td></tr> -->
+      <td><input class="a" type="text" id="q-photo" name="q-photo" /></td></tr>
+    <tr><td class="l"><label for="q-name">Name*:</label></td>
+      <td><input class="a" type="text" id="q-name" name="q-name" /></td></tr>
+    <tr><td class="l"><label for="q-idnum">ID#:</label></td>
+      <td><input class="a" type="text" id="q-idnum" name="q-idnum" /></td></tr>
+    <tr><td class="l"><label for="q-uuid">UUID:</label></td>
+      <td><input class="a" type="text" id="q-uuid" name="q-uuid" /></td></tr>
+    <tr><td class="l"><label for="q-issued">Issued On:</label></td>
+      <td><input class="a" type="text" id="q-issued" name="q-issued" /></td></tr>
+    <tr><td class="l"><label for="q-dob">Date of Birth*:</label></td>
+      <td><input class="a" type="text" id="q-dob" name="q-dob" /></td></tr>
+    <tr><td class="l"><label for="q-nat-on">Naturalized On*:</label></td>
+      <td><input class="a" type="text" id="q-nat-on" name="q-nat-on" /></td></tr>
+    <tr><td class="l"><label for="q-expires">Expires:</label></td>
+      <td><input class="a" type="text" id="q-expires" name="q-expires" /></td></tr>
+  </table>
+  <h3>Birth Certificate Information</h3>
+  <p>
+    Custom Graphics?
+    <input type="radio" id="qb-custom-yes" name="qb-custom" value="yes" />
+    <label for="qb-custom-yes">Yes</label>
+    <input type="radio" id="qb-custom-no" name="qb-custom" value="no"
+	   checked="checked" />
+    <label for="qb-custom-no">No</label>
+  </p>
+  <table>
+    <tr><td class="l"><label for="qb-full-name">Full Name:</label></td>
+      <td><input class="a" type="text" id="qb-full-name" name="qb-full-name" /></td></tr>
+    <tr><td class="l"><label for="qb-height">Height:</label></td>
+      <td><input class="a" type="text" id="qb-height" name="qb-height" /></td></tr>
+    <tr><td class="l"><label for="qb-weight">Weight:</label></td>
+      <td><input class="a" type="text" id="qb-weight" name="qb-weight" /></td></tr>
+    <tr><td class="l"><label for="qb-fur-color">Fur Color:</label></td>
+      <td><input class="a" type="text" id="qb-fur-color" name="qb-fur-color" /></td></tr>
+    <tr><td class="l"><label for="qb-eye-color">Eye Color:</label></td>
+      <td><input class="a" type="text" id="qb-eye-color" name="qb-eye-color" /></td></tr>
+    <tr><td class="l"><label for="qb-born-at">Born At:</label></td>
+      <td><input class="a" type="text" id="qb-born-at" name="qb-born-at" /></td></tr>
+  </table>
+  <h3><label for="q-biography">Biography</label></h3>
+  <p>
+    <textarea id="q-biography" name="q-biography" cols="50" rows="15"></textarea>
+  </p>
+  <p>
+    Custom Graphics?
+    <input type="radio" id="q-bio-custom-yes" name="q-bio-custom" value="yes" />
+    <label for="q-bio-custom-yes">Yes</label>
+    <input type="radio" id="q-bio-custom-no" name="q-bio-custom" value="no"
+	   checked="checked" />
+    <label for="q-bio-custom-no">No</label>
+  </p>
+  <h3>Additional Information</h3>
+  <p>
+    <label for="qa-lochome">Local home addr.:</label>
+    <input class="a" type="text" id="qa-lochome" name="qa-lochome" /><br />
+    <label for="qa-edu">Education:</label><br />
+    <textarea id="qa-edu" name="qa-edu" cols="50" rows="15"></textarea><br />
+    <label for="qa-employ">Employment:</label><br />
+    <textarea id="qa-employ" name="qa-employ" cols="50" rows="15"></textarea><br />
+    <label for="qa-crimes">Criminal Activity:</label><br />
+    <textarea id="qa-crimes" name="qa-crimes" cols="50" rows="15"></textarea><br />
+    <label for="qa-crimes">Enhanced Identification Notes:</label><br />
+    <textarea id="qa-exid-txt" name="qa-exid-txt" cols="50" rows="15"></textarea>
+  </p>
+  <p>
+    <input type="submit" value="Submit" />
+  </p>
+</form>
+
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+/* If the document fragment is set, insert this into the name field,
+   load the corresponding data, and set edit mode to true, unless we
+   are loading the 'new' record.  */
+function parse_hash(event) {
+  var url_name = window.location.hash.substr(1);
+  if (url_name) {
+    document.getElementById('q-name').value = decodeURI(url_name);
+    btn_load.onclick();
+  }
+}
+
+parse_hash(0);
+window.onhashchange = parse_hash;
+
+//--><!]]>
+</script>
+
+</body>
+</html>

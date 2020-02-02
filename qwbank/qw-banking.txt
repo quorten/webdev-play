@@ -1,0 +1,152 @@
+$5 per toy
+3 toys per week per yoolababe
+$15 per week per yoolababe
+1 special event per week
+$10 per special event
+$25 total per week
+5 work days per week
+$5 pay per day
+
+football game ticket prices:
+$10, $50, $100, depending on how close to field
+100+, 20, 10 seats
+like to have 100+ fans at a game
+might only have 10 fans at game
+some watch on TV, pay through TV bills
+$3000 a game a full capacity
+Starting 5 players per team on field
+All players who come to the field get paid,
+  the ones who play on field get paid more
+Small game, $1000, 10 fans, 5 players on each team
+Small, $100 pay per player average
+Game every two weeks
+$50 per football team member per week average
+$10 per day average
+Starting, on field, $7, off field, $3
+Any position, $5 per day average
+
+----------------------------------------
+
+Richie Richard Robotic Bank
+
+Requirements:
+
+* Quacky's World Citizenship
+** Create a form to enter details for Quacky's
+   World citizenship books
+** Create a database for details
+
+* The robotic bank can't have any employees.
+* The robotic bank never sleeps and never closes.
+* Only takes time off to go to the hospital.
+
+* What programming language should it be implemented
+  in?  This Richie Richard Robotic Bank should be
+  _completely_ mystical and magical, so it doesn't
+  matter.
+
+  The implementation should start out pretty simple
+  and lightweight in terms of the written code.
+
+  The interface must work in a web browser, so there
+  will be browser-side code.  The simplest and easiest
+  way to start out with this is to use HTML, CSS, and
+  JavaScript.
+
+  For the server-side code, let's just start out
+  with a programming language that is fast and easy
+  to compile.  We will start out with C.  Additional
+  server-side implementations can also be made
+  in more programming languages like Golang.
+
+  Database?  To start out simple, just write our own
+  simple thing for a database.  Or use SQLite.
+  There must be database export and import functions
+  that work on plain text files.
+
+
+* There will be full time machine functions in the
+  robotic bank.  Go backwards and forwards in time,
+  make future payments, or predict the future with
+  the mathematical models for auto-payments and
+  financial plans.
+
+* But... there will we a super-sequential clock
+  that can never be overridden, that records all
+  actions in order of their submission, even if
+  they come with dates and times out of order.
+  So, all time is remembered.
+
+* System to create accounts
+** For both businesses and yoolababes
+** Special accounts for cash banks
+** Citizens enter name, ID number
+** Businesses and cash banks have special ID numbers
+* Direct deposit from employers to employees
+* Autopay for bills
+* System to set up direct deposits and auto-pays
+* Easy entry for charging custom bills
+** Electronic checking
+** Date (auto), pay from, pay to, amount, comment/purpose
+* Deposit/withdraw cash?  This is processed through
+  one of the existing cash banks by transferring
+  through them.
+
+
+* Financial plan discretionary spend automation
+** Want to frequently eat at restaurants?
+   No need to worry about manually doing all that
+   billing, just program it into your financial
+   plan and the selection and spending is done
+   automatically?
+** Required:
+** Electronic menus for all discretionary spend
+   stores are required, so that you can pick things
+   from the pick list
+** You need to set up a schedule for when you
+   do discretionary spends
+** You can modify this schedule to reschedule
+   or cancel spends.  If you want to spend additional
+   things, you add those manually, unless you want
+   to change the schedule.
+** If you want to choose the what to buy yourself,
+   you need to schedule all the decisions in advance.
+   Otherwise, if you want the robot to choose for you,
+   you define some sample points, groupings, and
+   probabilities, and the robot will choose for you.
+** One special case of schedule modification.  If you
+   want a less automated decision-making, the robot
+   can instead offer you a few possible choices
+   ahead-of-time and you choose the choice you want.
+   If you don't make the manual decision in time, the
+   robot will automatically decide for you.
+
+* Loaning
+** Loaning cannot cause the total bank balance to go
+   negative.
+** A form for applying for a loan
+** Fill in date (auto), name, ID, amount, purpose
+** A robot for approving loans
+** Robot evaluates statistical parameters of
+   bank money coming in and out, checks standard
+   deviations, tries to avoid too much risk on too
+   large of a loan, and charges interest
+
+* Negative balances
+** If a citizen goes in debt, we just keep a negative
+   bank account for them.  If a citizen goes really
+   far negative, then their ability to spend it halted.
+** Businesses can't go negative.  Either they take
+   a loan or declare bankruptcy.  When bankrupty is
+   declared, a business's ability to spend is halted.
+** Banks can't go negative.
+
+* Mailing
+** What is your messaging preferences?
+** Do you only want electronic communication?
+** Do you want paper bills to be mailed out?  If so, then
+   you need to configure a cash bank to process the printing
+   and mailing.
+** Do you want bank statements mailed out?
+** Paper bills are processed by a cash bank, which then
+   turns that into the electronic transfers.

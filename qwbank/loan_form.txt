@@ -1,0 +1,9 @@
+Database/form fields:
+
+* Date (auto)
+* Name
+* ID
+* Amount
+* Purpose
+
+Result: Granted/Denied

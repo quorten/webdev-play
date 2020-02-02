@@ -1,0 +1,6 @@
+Form fields:
+
+* Date (auto)
+* Action: Deposit Cash, Withdraw Cash
+* Account
+* External bank

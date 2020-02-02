@@ -1,0 +1,467 @@
+Photographic Environmental Mapping
+**********************************
+
+* Purpose
+
+** The purpose of photographic environmental mapping is to create a
+   digital map of an environment such that locations of objects and
+   their general appearance can be understood.
+
+** Virtually all information contained herein is something that you
+   either already learned in school or through observation and
+   questioning of photographs, so why not use it?
+
+* Limitations defined
+
+** An environmental map need not capture an object in its full level
+   of detail.  In fact, due to differences between our theoretical
+   scientific knowledge and our practical scientific knowledge
+   governing everyday tools and technologies, it is not possible to
+   capture objects in their full level of detail to the limits of our
+   theoretic scientific knowledge.
+
+*** Can't scan individual atoms economically!
+
+** However, it is possible to use conventional tools and technologies
+   to obtain detailed mapping information of many kinds of
+   environments.
+
+*** So it would be foolish to not take advantage of the technologies
+    that are readily available to aid in problem solving.
+
+* Photography/photogrammetry basics
+
+** A camera captures optical rays from different angles.
+
+** Field of view defines the limits of these angles.
+
+*** Focal length of a lens is the traditional measurement of field of
+    view in photography.  This is encoded as metadata within an
+    unedited JPEG image.
+
+** Proper photographic measurements of objects can only be obtained
+   with proper white balance and a unit of scale.  This is easy to
+   correct.  Make sure a white reference object is placed in the
+   photograph, and photograph a ruler next to the object so that scale
+   can be determined.
+
+*** Make sure the lighting is sufficient to get a reasonably good
+    photograph.  Bright light makes for shorter shutter times and thus
+    easier photographing.
+
+*** You may need to photograph a measuring tape up close if you are
+    measuring a large distance.
+
+** This is nothing new.  You probably already know this, so I'd be
+   surprised that I have to review it with you.
+
+** Light color.  So you should be able to print out a sheet of paper
+   that, when viewed under the same lighting, looks the same.
+   Otherwise, if there was a yellow tint in the lighting, you printed
+   out the sheet on paper, and looked at that printed paper in the
+   same lighting, the yellow tinting would multiply to give an even
+   less color capture of the colormetric detail on the surface of the
+   object.
+
+** At least capture the lighting conditions of the room with the white
+   reference paper, if not using it to calibrate the white balance of
+   the camera too.
+
+* (next slide)
+
+** 3D scanning basics, explained in 2D.
+
+** Since a camera only obtains a 2D image of surface details, it is
+   likely that there are some back surfaces of an object that are not
+   visible.
+
+** These need to be photographed for completeness.
+
+** This is nothing new.
+
+* (next slide)
+
+** Simplification of a camera.  If one assumes a field of view is
+   sufficiently narrow, one can assume an orthographic camera where
+   all rays of light received are parallel.
+
+** Why is this important?  It turns out that if an orthographic camera
+   is rotated around an object, every single visible surface point is
+   seen from every single perspective which it is possible to see it
+   from without object disassembly.
+
+** In practice, one doesn't need to take photographs from every single
+   possible angle to see every point on the surface at least once.
+   Hence less photographs can be used for most objects, but some
+   objects demand more photographs for complete coverage.
+
+** Point visibility is the basic requirement for optical 3D scanning.
+   It also turns out that it can be used in conventional 2D
+   photography to obtain full surface coverage.
+
+** Again, this is nothing new.  All of it you are probably already
+   familiar with from intuition working in 3D environments.
+
+* More complicated 3D objects
+
+** How do you 3D scan a volumetric object?
+
+** For many real-world manufactured objects, it is possible to
+   disassemble the object, and in practice, one an object is fully
+   disassembled, all of its individual parts can be 3D scanned in as
+   much accuracy as is required to manufacture a sufficient replica of
+   the object in question.
+
+** Any object may be sliced into layers.
+
+** In practice, when an object is disassembled, the layers are not
+   planar.  Rather, they may follow a more complicated geometry.
+
+** Nevertheless, the same principle applies.
+
+* Example: Contents of a drawer or box.
+
+** The interior contents are stacked in layers.
+
+** Once the top layer is removed, the bottom layer can be photographed
+   in full.
+
+** Each individual object removed can be photographed as many times as
+   necessary to achieve 360 degree coverage.
+
+* Example: Point-and-shoot film camera.
+
+** There is an external case on the camera held in place with many
+   screws.
+
+** This can be removed to reveal the first layer of interior
+   electronics.
+
+** The interior electronics are stacked in multiple layers.  These can
+   be removed to reveal the mechanical mechanism deep within the
+   camera body.
+
+** Note that this level of detail may not be necessary for the purpose
+   of basic object identification and location mapping.
+
+** However, it is necessary for an engineering understanding of the
+   particular object in question, and understanding the design of
+   machines.  Or, correspondingly, communicating that design to other
+   people.
+
+* Finally, photographic detail and scale.
+
+** Simply by taking more close-up photographs of an object, you can
+   achieve more detail.
+
+** These can be correlated back to a single photograph taken at a
+   distance.
+
+* So, example on the full process, starting in one room and moving to
+  additional rooms.
+
+** Take photographs of multiple different angles of the room.  Usually
+   you want to be in the same position like taking a panoramic photo.
+
+*** NOTE: When taking pictures of objects from multiple angles, make
+    sure you photograph with some overlap.  Yep, it's just like
+    panorama photography.  But for this case, you don't need overlap
+    just so that the images can be stitched together.  In some cases,
+    the overlap may make it possible for photogrammetry software to
+    perform a 3D reconstruction on the object based solely off of
+    photographic data.  So, even though 3D scanning is not a priority
+    for this type of photography, at least you're leaving it as a
+    possibility.
+
+    Binocular photographs can also help for photogrammetry.  It's not
+    important that the spacing between the two photographs is precise
+    for this application, though.  Software will still be able to
+    process it and specify the spacing to be some abstract unit, for
+    which the user fills in to resolve the ambiguity.  Tweaks can be
+    made when combining multiple such images from different
+    perspectives.
+
+**** Is binocular vision necessary?  No.  It works best for small
+     objects, it somewhat works in larger environments if the two
+     camera positions are spaced far enough apart, but it doesn't work
+     in huge environments where it is not possible to space the
+     cameras far enough apart based off of the size of the object
+     being photographed.
+
+     It's optional, something to consider if you want to use it.
+
+     No, no no.  Yes it is necessary.  This information is very easy
+     to acquire, and it makes the resulting data easier to work with.
+     Even if the distance between the two camera positions is not
+     precisely specified, or even specified at all.
+
+** Draw circles on those images indicating regions where you will move
+   the camera to to photograph other objects in more detail.  Label
+   those with numbers.
+
+** Be careful when moving around objects.  You don't want to damage
+   anything.  Observe the materials and structure and handle with
+   care.
+
+** Proceed to do so in greater levels of detail until you reach one of
+   these limits.
+
+*** Manufactured objects that would have to be disassembled,
+    especially if doing so requires special tools.
+
+*** Some objects it may make sense to photograph in bulk.  For
+    example, a box of markers or colored pencils, you don't need to
+    photograph every single individual utensil, but photographing them
+    altogether at different angles such that their entire surface is
+    understood is doable.
+
+    Still in the computer, you're going to end up assigning labels to
+    every single object.
+
+*** Books, binders, and file folders containing hundreds of sheets of
+    paper.  This can simply be delineated as an "information file" and
+    only the outside of the collection needs to be photographed in 360
+    degrees.
+
+** Bags of objects with no particular order?  The "layering" is the
+   order in which you remove the objects.  At the very least, they
+   should be inserted back in the same order they were removed.
+
+* Practical considerations.
+
+** You might, for example, take all the photographs without drawing
+   the indicators of level of detail on the photographs.  This is
+   acceptable so long as you remember the ordering and placement of
+   objects and place them back in the right order.
+
+*** However, if you do this, you might realize you missed something
+    and have to go back for more photographs.  So, it's best to bring
+    a tablet or laptop with you so you can draw on the photographs
+    being tagged or marked up with areas to be photographed in more
+    detail.
+
+* Digital storage technical details
+
+** Photographic resolution?  The main requirement for now is HD
+   resolution, around 1280 X 960 pixels.  Lower resolution may be
+   acceptable for some kinds of photographs of individual objects
+   against a white background that have very little detail.
+
+** If the original photographs are higher resolution, they should be
+   saved when possible at their original resolution, and the smaller
+   image saved in addition to the source image.  It's important to
+   preserve the JPEG metadata of the original image.
+
+** SVG images, filesystem hierarchy.  Indexes.
+
+** Finally, we've learned that such a point-and-click methodology
+   through a web browser is very easy for low-skills computer users to
+   navigate.
+
+* System updates
+
+** One can start by looking at the previous structure, looking for the
+   parts that have changed, and re-photographing those parts with
+   up-to-date information.
+
+* Journalism
+
+** Who, what, where when, why, how
+
+** What -> the image of the object
+
+** Where -> the context images can be used to determine an object's
+   location, along with geo-tagging in the JPEG metadata.
+
+** When -> Each photograph is timestamped.
+
+** Why -> "Why" is technically inclusion of relevant past information
+   and events.  By keeping track of history and linking past data with
+   present data.  However, in order to get a better understanding of
+   "why," often times some natural language prose of human intent may
+   be required.
+
+** How -> Optional, basically the same as "what"
+
+** Almost all of this using structured data.
+
+   The only thing that can't be structured data is the "who" and the
+   "why," because that hinges more around politics than physics, along
+   with the uncertainty and stochastic nature of human decision
+   making.
+
+*** In the case of direct photos of humans, "who" is easy to track.
+
+** By recording the environment as-is, it is easy to track changes to
+   the environment.
+
+** Storage policy?  Do you delete the old when you have too much
+   history?  Not so.  Rather you delete the new and keep the old so
+   that you can keep track of otherwise undetectable long-term, slow
+   changes.  However, it's sometimes useful to have recent history at
+   high frequency.  So, there is somewhat of an exponential curve in
+   keeping history.  Generally, you can keep recent history at high
+   frequency, but once it gets older, it gets reduced down to one
+   snapshot of the oldest state.  So long as the new state is not
+   detectably different from the old state, the new state keeps
+   getting deleted.  However, once there is a detectable difference,
+   then that results in some additional new state data being kept for
+   posterity on that.
+
+* Obviously, if you are making irreversible changes, make sure you ask
+  for approval from all people who have an interest.
+
+----------------------------------------
+
+Yes, the directory hierarchy.
+
+root/YYYY/MM/DD/T1/E1/L1/A1/Z1/index.svg
+
+T = "time index", used where it is cumbersome to specify more precise
+    time measurement.
+E = "entity"
+L = "layer"
+A = "azimuth angle index"
+Z = "zenth angle index"
+
+Note that zero padding the numbers out to a fixed length is optional.
+
+Finally, the EN/LN/AN/ZN structure can be nested underneath the index
+structure for sub-entities.
+
+For all practical purposes, "entities" also include "locations."  So,
+for example, if you have a room that you can move throughout such that
+doing so causes new objects to be visible and you are not clearly
+rotating around a central point, the different locations where the
+camera could be positioned at would necessarily be named "entities."
+Furthermore, as a practical constraint, the space must be partitioned
+such that there is only a single entity that contains every
+sub-object.  If some objects are visible from multiple views, the
+"overlap" from one view must be flagged with an overlay (and
+hyperlink) indicating the view that the contained objects belong to.
+
+* In other words, the entity partitioning necessarily takes place in
+  three dimensions.
+
+* What's the difference between layers and entities?  Entities are
+  basically containments reached by pure motion and partitioning.
+  Layers imply that some additional effort might be required to
+  uncover a layer.
+
+** Okay, the explanation is principally that.  If additional objects
+   are otherwise occluded or invisible, any manipulation required to
+   make them visible is a /layer/ traversal.  Simple as that.  If the
+   object can be made visible just by moving yourself through the
+   space, that is an /entity/.
+
+*** So, for example, opening a door to go into another room is
+    necessarily a layer traversal.  Likewise with closing a door.
+    Which one comes first?  How do you know there's a layer there?
+    Okay, okay, those are good practical questions.  GUI improvements
+    related to visibility of manipulation is needed.  Isn't the door
+    an object of its own?
+
+* Fine, I'll admit.  You can get pretty non-sensical with layers if
+  you do it wrong.  You have to think in a top-down perspective.  If
+  you can't see inside, open the door.  If the door is open by
+  default, you can look at the door individually OR you can close it?
+  Definitely, some indication of available layering is necessary.
+
+* It is true that a door opened or closed is different layers of the
+  same scene.  It is *not* true that the interior scene belongs to one
+  of those two layers.  In both cases, the 3D partitioning is the
+  same.
+
+** Now this /really/ doesn't make sense.  What if you have N different
+   room components that can be opened and closed?  How on Earth are
+   you to manage such a setup?
+
+*** Okay, fine, you're right, now I'll make the verdict.  /Decision
+    points/ that manipulate the environment are in fact "layers."
+    From here, there is a /decision tree/ of actions that can be used
+    to reach certain locations.
+
+    Given this statement, there is not always a linear relationship
+    between actions, although for many important objects like books
+    and manufactured machines, there is, or such a structure can
+    otherwise be construed upon the object.
+
+**** This is kind of bad news for the inventory system design because
+     it relies on an environment that /can/ be linearized and stored
+     in some sort of way.
+
+*** Okay, so for the door thing, that technically is layering,
+    although such technical details may be contained in a separate
+    entity.  For example, partition a space around the door, and use
+    layers there.  Outside that space, there is no need for layering.
+
+*** So let me be very clear on this point.  The constraint for
+    /linearization/ means there can only be /one dimension/ of
+    *reversible state changes* to the environment.  By being
+    /partitioned/ and /three dimensional/, that means that under some
+    state conditions, other partitions may be visible from other
+    partitions under some states (in *only* one dimension, hence
+    "layers"), even though they are not totally contained within the
+    current partition.
+
+    Yes, this does in fact mean that such a model is too simple to
+    explain things such as consumer electronics that can be
+    disassembled in more than one way, but kind of the point here is
+    that you should be able to disassemble the consumer electronic in
+    at least /one/ way that reveals all of its internal details.  The
+    process should not be so complicated that it cannot be partitioned
+    into individual parts that can be fully understood by traversing a
+    single dimension of manipulation, even possibly a sequence of
+    different kinds of manipulations.
+
+    So yes, in the end, I have to admit, the result of photo-mapping
+    is the following of a single person throughout their
+    decision-making process to explore an environment, and this is
+    subject to their own personal biases in what decisions they make
+    to explore the environment.  However, given finite resources, I
+    believe that having at least one comprehensive view is better than
+    having several incomprehensive views, none of which fully covers
+    the contents of the environment.
+
+Note that it is possible to link across time boundaries rather than
+doing a full re-scan of unchanged objects.  For that, you just setup a
+symlink.  This means that old objects must maintain their indexes and
+new objects may have to use indexes that are "out of order," or old
+object indexes may skip around.
+
+For the azimuth and zenith angle indexes, you should try to match
+azimuth angle indexes across different zeniths such that it is
+possible for software to automatically select the same azimuth index
+at a different zenith.  This makes it easier for a user to rotate
+around an object.
+
+* GRAPHIC: Illustrate common azimuth and zenith angles.
+
+Although there is only one index, you might have a left and a right
+photograph.
+
+Also note.  In my experience doing manual photographs without an place
+mat, it is hard to take zenith photographs separately, and even then
+you end up not needing to take very many.  Actually, my recommendation
+at this point may be to skip tagging the zenith angles and just lump
+everything together as "angle indexes."
+
+----------
+
+So using the guiding principles.  Once the structure has been designed
+and photographed, you need only verify that it is the same.  This is a
+much easier process, even more so with a tablet computer.  Just
+navigate the physical world, navigate the virtual world in tandem, and
+check the contents of both to see that they match.  Easy.  No data
+input necessary.  Just "browsing."
+
+----------
+
+What kinds of benefits can be expected?  For instance, if you just
+photograph the outer covers of a book, you get its name, author,
+edition, and ISBN "for free," without any additional effort.  And this
+information is necessary to lookup a book in a digital library system.
+
+* New books in particular are more likely to be found in digital
+  libraries than old books.  Thus there is higher priority to keeping
+  old books in physical form than new books.
