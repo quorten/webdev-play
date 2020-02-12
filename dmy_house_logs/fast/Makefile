@@ -3,7 +3,7 @@ CFLAGS = -g
 LDFLAGS =
 bin_PROGRAMS = test_dumb_cgipm view_logs.cgi laundry_logs.cgi \
   level_1_log_tail.cgi level_2_log_tail.cgi level_3_log_tail.cgi \
-  add_log.cgi
+  view_logs_tail.cgi add_log.cgi
 
 all: $(bin_PROGRAMS)
 
@@ -49,6 +49,12 @@ level_3_log_tail.o: level_3_log_tail.c tmpl_log_tail.h
 level_3_log_tail.cgi: level_3_log_tail.o tmpl_log_tail.o dumb_cgipm.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
+view_logs_tail.o: view_logs_tail.c tmpl_log_tail.h
+	$(CC) $(CFLAGS) -c $<
+
+view_logs_tail.cgi: view_logs_tail.o tmpl_log_tail.o dumb_cgipm.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
 add_log.o: add_log.c dumb_cgipm.h
 	$(CC) $(CFLAGS) -c $<
 
@@ -60,20 +66,22 @@ test check: test_dumb_cgipm
 
 install: $(bin_PROGRAMS)
 	cp -p level_1_log_tail.cgi level_2_log_tail.cgi \
-	  level_3_log_tail.cgi add_log.cgi ../sign_your_name/
+	  level_3_log_tail.cgi add_log.cgi view_logs_tail.cgi \
+	  ../sign_your_name/
 	cp -p view_logs.cgi laundry_logs.cgi ..
 
 uninstall:
 	rm -f ../sign_your_name/level_1_log_tail.cgi
 	rm -f ../sign_your_name/level_2_log_tail.cgi
 	rm -f ../sign_your_name/level_3_log_tail.cgi
+	rm -f ../sign_your_name/view_logs_tail.cgi
 	rm -f ../sign_your_name/add_log.cgi
 	rm -f ../view_logs.cgi ../laundry_logs.cgi
 
 mostlyclean:
 	rm -f dumb_cgipm.o test_dumb_cgipm.o test_results.txt \
 	  view_logs.o laundry_logs.o tmpl_log_tail.o level_1_log_tail.o \
-	  level_2_log_tail.o level_3_log_tail.o add_log.o
+	  level_2_log_tail.o level_3_log_tail.o view_logs_tail.o add_log.o
 
 clean: mostlyclean
 	rm -f $(bin_PROGRAMS)

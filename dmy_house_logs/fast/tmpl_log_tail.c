@@ -39,7 +39,7 @@ gen_tmpl_log_tail (unsigned log_tail_len, const char *tmpl_name)
   unsigned log_dirname_len;
   char log_filename[260];
   char linebuf[4096];
-  char log_lines[32][4096];
+  char **log_lines;
   unsigned num_log_lines = 0;
   char *env_script_filename;
   char *log_dirname_end;
@@ -80,13 +80,41 @@ gen_tmpl_log_tail (unsigned log_tail_len, const char *tmpl_name)
     return;
   }
 
+  { /* Allocate the log lines array.  */
+    unsigned i;
+    int alloc_error_pos = -1;
+    log_lines = (char**) malloc (sizeof (char*) * (log_tail_len + 1));
+    if (log_lines == NULL) {
+      tail_read_log_error ("Error allocating memory.", errno);
+      fclose (fp);
+      return;
+    }
+    for (i = 0; i < log_tail_len + 1; i++) {
+      log_lines[i] = (char*) malloc (sizeof (char) * 4096);
+      if (log_lines[i] == NULL) {
+	alloc_error_pos = i;
+	break;
+      }
+    }
+    if (alloc_error_pos != -1) {
+      for (i = 0; i < alloc_error_pos; i++)
+	free (log_lines[i]);
+      free (log_lines);
+      tail_read_log_error ("Error allocating memory.", errno);
+      fclose (fp);
+      return;
+    }
+  }
+
   /* Read the tail of the log lines into an array.  */
   /* TODO FIXME: Check for read errors here too.  */
   while (fgets (log_lines[num_log_lines], 4096, fp) != NULL) {
     num_log_lines++;
     if (num_log_lines > log_tail_len) {
-      memmove (log_lines[0], log_lines[1],
-	       sizeof (log_lines[0]) * (num_log_lines - 1));
+      char *old_log_line_buf = log_lines[0];
+      memmove (&log_lines[0], &log_lines[1],
+	       sizeof (&log_lines[0]) * (num_log_lines - 1));
+      log_lines[num_log_lines-1] = old_log_line_buf;
       num_log_lines--;
     }
   }
@@ -121,5 +149,13 @@ gen_tmpl_log_tail (unsigned log_tail_len, const char *tmpl_name)
   if (fclose (fp) == EOF) {
     tail_read_log_error ("Error closing template file", errno);
     return;
+  }
+
+ cleanup_memory:
+  {
+    unsigned i;
+    for (i = 0; i < log_tail_len + 1; i++)
+      free (log_lines[i]);
+    free (log_lines);
   }
 }
