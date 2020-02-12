@@ -13,12 +13,14 @@ $YAML::Syck::ImplicitTyping = 1;
 
 my $data_filename = $ARGV[0];
 my $level_name = 'level 1';
+my $head_name = 'head.html';
 if (@ARGV >= 2) { $level_name = $ARGV[1]; }
+if (@ARGV >= 3) { $head_name = $ARGV[2]; }
 
 my $fh;
 my @lines;
 
-open($fh, "<", "head.html") or die "HTML header: $!";
+open($fh, "<", $head_name) or die "HTML header: $!";
 @lines = <$fh>;
 # Execute any template replacements within the HTML header.
 for my $line (@lines) {
