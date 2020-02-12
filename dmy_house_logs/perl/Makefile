@@ -1,5 +1,7 @@
 all:
 
+clean:
+
 install:
 	cp -p tmpl_log_tail.pm ../sign_your_name/
 	cp -p level_1_log_tail.pl ../sign_your_name/level_1_log_tail.cgi
