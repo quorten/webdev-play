@@ -14,3 +14,7 @@ code.  Currently, there are a few main projects emerging:
   keeping system.
 
 * `dumbank`: A primitive web-based toy electronic banking system.
+
+* `envmap`: A primitive system for creating "photo maps" of
+  environments, kind of like Google Streetview but for indoor/custom
+  environments.
