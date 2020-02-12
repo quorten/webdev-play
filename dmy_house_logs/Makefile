@@ -1,5 +1,7 @@
+CODELANG = fast
+
 all: dmy_house_logs.log
-	$(MAKE) -C fast install
+	$(MAKE) -C $(CODELANG) install
 	$(MAKE) -C gen_sign_your_name install
 
 # Create an empty log file for development.
@@ -18,9 +20,9 @@ docker-down:
 	sudo docker rm dmy_house_logs
 
 mostlyclean:
-	$(MAKE) -C fast clean
+	$(MAKE) -C $(CODELANG) clean
 	$(MAKE) -C gen_sign_your_name clean
 
 clean: mostlyclean
-	$(MAKE) -C fast uninstall
+	$(MAKE) -C $(CODELANG) uninstall
 	$(MAKE) -C gen_sign_your_name uninstall
