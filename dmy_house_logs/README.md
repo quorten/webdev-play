@@ -33,3 +33,29 @@ Dependencies
 * Perl YAML::Syck
 * A web server with CGI support
 * A Markdown renderer such as Kramdown
+
+Web Server Configuration
+========================
+
+Please note that since the default installation installs CGI scripts
+alongside static documents, you must configure your web server
+accordingly to allow such.  With Apache, for example, this entails the
+following main configuration steps:
+
+* Enable the CGI module (`mod_cgi`, `mod_cgid`, etc.).
+* Configure accordingly:
+  ```
+  Options +ExecCGI +MultiViews
+  AddHandler cgi-script .cgi
+  MultiviewsMatch Handlers
+  ```
+
+Caching must also be set to expire immediately so that users are
+guaranteed a fresh view of the log files.  In Apache:
+
+* Enable `mod_expires`.
+* Configure accordingly:
+  ```
+  ExpiresActive On
+  ExpiresDefault A0
+  ```
