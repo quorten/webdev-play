@@ -30,7 +30,7 @@ running different processor architectures.
 Dependencies
 ============
 
-* Perl YAML::Syck
+* Perl YAML::Syck (`sudo apt-get install libyaml-syck-perl`)
 * A web server with CGI support
 * A Markdown renderer such as Kramdown
 
