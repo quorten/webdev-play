@@ -91,8 +91,10 @@ main (void)
   if (!purpose)
     purpose = "";
 
+  /* Verify that input was not truncated.  */
   /* Verify all required parameters are provided.  */
-  if (!pay_from[0] || !pay_to[0] || !amount[0] || !purpose[0]) {
+  if (!feof (stdin) ||
+      !pay_from[0] || !pay_to[0] || !amount[0] || !purpose[0]) {
     cgi_p_header_status ("400 Bad Request");
     cgi_p_header_content_type ("text/html");
     cgi_p_end_header ();

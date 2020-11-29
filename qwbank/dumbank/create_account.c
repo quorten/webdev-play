@@ -79,8 +79,10 @@ main (void)
   if (!acct_type)
     acct_type = "";
 
+  /* Verify that input was not truncated.  */
   /* Verify all required parameters are provided.  */
-  if (!acct_name[0]) {
+  if (!feof (stdin) ||
+      !acct_name[0]) {
     cgi_p_header_status ("400 Bad Request");
     cgi_p_header_content_type ("text/html");
     cgi_p_end_header ();

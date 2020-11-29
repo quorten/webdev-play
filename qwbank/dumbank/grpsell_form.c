@@ -87,8 +87,10 @@ main (void)
   if (!sellers)
     sellers = "";
 
+  /* Verify that input was not truncated.  */
   /* Verify all required parameters are provided.  */
-  if (!pay_from[0] || !amount[0] || !purpose[0] || !sellers[0]) {
+  if (!feof (stdin) ||
+      !pay_from[0] || !amount[0] || !purpose[0] || !sellers[0]) {
     cgi_p_header_status ("400 Bad Request");
     cgi_p_header_content_type ("text/html");
     cgi_p_end_header ();

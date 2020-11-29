@@ -100,8 +100,10 @@ main (void)
   snprintf (log_entry, 4096, "%s: %s: %s\n",
 	    log_date_time, log_name, log_action);
 
+  /* Verify that input was not truncated.  */
   /* Verify all required parameters are provided.  */
-  if (!log_name[0] || !log_action[0]) {
+  if (!feof (stdin) ||
+      !log_name[0] || !log_action[0]) {
     cgi_p_header_status ("400 Bad Request");
     cgi_p_header_content_type ("text/html");
     cgi_p_end_header ();
