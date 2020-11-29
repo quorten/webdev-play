@@ -1,9 +1,8 @@
 CC = cc
 CFLAGS =
 LDFLAGS =
-bin_PROGRAMS = autopay tlog.cgi tlog_big.cgi \
-	create_account.cgi payment_form.cgi \
-	autopay_form.cgi view_logs.cgi
+bin_PROGRAMS = autopay tlog.cgi create_account.cgi payment_form.cgi \
+	autopay_form.cgi grpbuy_form.cgi grpsell_form.cgi view_logs.cgi
 
 all: $(bin_PROGRAMS)
 
@@ -12,9 +11,6 @@ autopay: autopay.c
 
 tlog.cgi: tlog.c xmalloc.c
 	cc -o tlog.cgi tlog.c xmalloc.c
-
-tlog_big.cgi: tlog_big.c xmalloc.c
-	cc -o tlog_big.cgi tlog_big.c xmalloc.c -lgmp
 
 dumb_cgipm.o: dumb_cgipm.c dumb_cgipm.h
 	$(CC) $(CFLAGS) -c $<
@@ -37,6 +33,18 @@ autopay_form.o: autopay_form.c dumb_cgipm.h
 autopay_form.cgi: autopay_form.o dumb_cgipm.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
+grpbuy_form.o: grpbuy_form.c dumb_cgipm.h
+	$(CC) $(CFLAGS) -c $<
+
+grpbuy_form.cgi: grpbuy_form.o dumb_cgipm.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
+grpsell_form.o: grpsell_form.c dumb_cgipm.h
+	$(CC) $(CFLAGS) -c $<
+
+grpsell_form.cgi: grpsell_form.o dumb_cgipm.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
 view_logs.o: view_logs.c dumb_cgipm.h
 	$(CC) $(CFLAGS) -c $<
 
@@ -44,7 +52,8 @@ view_logs.cgi: view_logs.o dumb_cgipm.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
-	rm -f autopay tlog.cgi tlog_big.cgi create_account.cgi \
-	  payment_form.cgi autopay_form.cgi view_logs.cgi
+	rm -f autopay tlog.cgi create_account.cgi \
+	  payment_form.cgi autopay_form.cgi grpbuy_form.cgi \
+	  grpsell_form.cgi view_logs.cgi
 	rm -f dumb_cgipm.o create_account.o payment_form.o \
-	  autopay_form.o view_logs.o
+	  autopay_form.o grpbuy_form.o grpsell_form.o view_logs.o
