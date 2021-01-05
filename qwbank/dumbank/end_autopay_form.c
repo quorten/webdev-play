@@ -51,7 +51,8 @@ main (void)
   struct tm cur_date;
   char str_cur_date[64];
   unsigned char monthly_pay = 0;
-  char *payday1, *interval, *pay_from, *pay_to, *amount, *purpose;
+  char *payday1, *interval, *last_payday,
+    *pay_from, *pay_to, *amount, *purpose;
 
   char *env_script_filename;
   FILE *fp;
@@ -73,6 +74,9 @@ main (void)
     interval = "";
   if (strcmp (interval, "Monthly") == 0)
     monthly_pay = 1;
+  last_payday = cgi_s_get_param (params, params_len, "last_payday");
+  if (!last_payday)
+    last_payday = "";
   pay_from = cgi_s_get_param (params, params_len, "pay-from");
   if (!pay_from)
     pay_from = "";
@@ -89,7 +93,7 @@ main (void)
   /* Verify that input was not truncated.  */
   /* Verify all required parameters are provided.  */
   if (!feof (stdin) ||
-      !payday1[0] || !interval[0] ||
+      !payday1[0] || !interval[0] || !last_payday[0] ||
       !pay_from[0] || !pay_to[0] || !amount[0] || !purpose[0]) {
     cgi_p_header_status ("400 Bad Request");
     cgi_p_header_content_type ("text/html");
@@ -136,10 +140,11 @@ main (void)
   }
 
   /* Append our log entry.  */
-  fprintf (fp, "\nType:Auto-Pay Rule\n");
+  fprintf (fp, "\nType:End Auto-Pay\n");
   fprintf (fp, "Auto-Pay Monthly:%s\n", monthly_pay ? "Yes" : "No");
   fprintf (fp, "Pay-Day #1:%s\n", payday1);
   fprintf (fp, "Interval:%s\n", interval);
+  fprintf (fp, "Last Pay-Day:%s\n", last_payday);
   fprintf (fp, "Pay From:%s\n", pay_from);
   fprintf (fp, "Pay To:%s\n", pay_to);
   fprintf (fp, "Amount:%s\n", amount);

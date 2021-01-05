@@ -25,6 +25,7 @@
 #define TYPE_TRANSFER 2
 #define TYPE_AUTO_PAY_RULE 3
 #define TYPE_UPD_AUTO_PAY 4
+#define TYPE_END_AUTO_PAY 5
 
 /* MAX_ACCOUNTS is one greater than the allowed accounts.
    (x < MAX_ACCOUNTS)  */
@@ -260,6 +261,8 @@ process_field (char *key, char *value)
       field_parse_type = TYPE_TRANSFER;
     } else if (strcmp (value, "Auto-Pay Rule") == 0) {
       field_parse_type = TYPE_AUTO_PAY_RULE;
+    } else if (strcmp (value, "End Auto-Pay") == 0) {
+      field_parse_type = TYPE_END_AUTO_PAY;
     }
     return true;
   }
@@ -311,7 +314,8 @@ process_field (char *key, char *value)
       field_parse_record.transfer.purpose = xstrdup (value);
     } else
       return false;
-  } else if (field_parse_type == TYPE_AUTO_PAY_RULE) {
+  } else if (field_parse_type == TYPE_AUTO_PAY_RULE ||
+	     field_parse_type == TYPE_END_AUTO_PAY) {
     if (strcmp (key, "Auto-Pay Monthly") == 0) {
       if (strcmp (value, "Yes") == 0)
 	field_parse_record.rule.autopay_monthly = true;
@@ -339,6 +343,13 @@ process_field (char *key, char *value)
 	field_parse_record.rule.interval = 28 * 24 * 60 * 60;
       }
       /* TODO FIXME: Factor the following copy & pasted code.  */
+    } else if (strcmp (key, "Last Pay-Day") == 0) {
+      /* TODO FIXME: Factor the following copy & pasted code.  */
+      struct tm cal_time;
+      memset (&cal_time, 0, sizeof(struct tm));
+      strptime (value, "%Y-%m-%d %H:%M:%S", &cal_time);
+      cal_time.tm_isdst = -1;
+      field_parse_record.rule.last_payday = mktime (&cal_time);
     } else if (strcmp (key, "Pay From") == 0) {
       field_parse_record.rule.pay_from = search_account_id (value);
       if (field_parse_record.rule.pay_from == INVALID_ACCOUNT)
@@ -377,6 +388,34 @@ end_process_fields (void)
     xfree (field_parse_record.transfer.purpose);
   } else if (field_parse_type == TYPE_AUTO_PAY_RULE) {
     EA_APPEND_MULT(auto_pay_rules, &field_parse_record, 1);
+  } else if (field_parse_type == TYPE_END_AUTO_PAY) {
+    /* Find matching auto-pay rule and fill in end date.  */
+    bool found_record = false;
+    unsigned i;
+    for (i = 0; i < auto_pay_rules.len; i++) {
+      /* Do not update terminated auto-pay rules.  */
+      if (auto_pay_rules.d[i].last_payday != 0)
+	continue;
+      if (field_parse_record.rule.payday1 != auto_pay_rules.d[i].payday1)
+	continue;
+      if (field_parse_record.rule.interval != auto_pay_rules.d[i].interval)
+	continue;
+      if (field_parse_record.rule.pay_from != auto_pay_rules.d[i].pay_from)
+	continue;
+      if (field_parse_record.rule.pay_to != auto_pay_rules.d[i].pay_to)
+	continue;
+      if (field_parse_record.rule.amount != auto_pay_rules.d[i].amount)
+	continue;
+      if (strcmp (field_parse_record.rule.purpose,
+		  auto_pay_rules.d[i].purpose) != 0)
+	continue;
+      found_record = true;
+      break;
+    }
+    if (!found_record)
+      return false; /* Did not match an auto-pay rule.  */
+    /* Now update the last pay-day of the matched auto-pay rule.  */
+    auto_pay_rules.d[i].last_payday = field_parse_record.rule.last_payday;    
   } else
     return false;
   return true;
@@ -555,7 +594,7 @@ print_account_totals (void)
     if (mills < 0) mills = -mills;
     /* Do not display future accounts not yet created.  */
     if (accounts.d[i].creation_date <= report_time)
-      printf ("%s: $%lld.%03d\n", accounts.d[i].name, dollars, mills);
+      printf ("%s: $%lli.%03i\n", accounts.d[i].name, dollars, mills);
     xfree (accounts.d[i].name);
     xfree (accounts.d[i].acct_type);
     /* mpz_tdiv_qr_ui (dollars, mills, balance, 1000);  */
