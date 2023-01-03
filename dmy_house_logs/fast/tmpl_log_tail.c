@@ -30,6 +30,41 @@ tail_read_log_error (char *user_err_desc, int err_code)
   cgi_p_p_a_href ("..", "Return to landing page"); putchar ('\n');
 }
 
+/* Determine the template name from the program name.  Basically
+   basename() followed by replacing "_log_tail.cgi" with ".html".
+   Returns 1 on success, 0 on error.  */
+int
+gen_tmpl_name (char *tmpl_name, unsigned tmpl_name_limit,
+	       const char *prog_name)
+{
+  const char *suffix = "_log_tail.cgi";
+  const unsigned suffix_len = 13;
+  const char *new_suffix = ".html";
+  const unsigned new_suffix_len = 5;
+  const char *basename;
+  unsigned basename_len;
+  unsigned suffix_pos;
+
+  basename = strrchr (prog_name, '/');
+  if (basename == NULL)
+    basename = prog_name;
+  else
+    basename++; /* Skip '/' */
+  basename_len = strlen (basename);
+  suffix_pos = basename_len - suffix_len;
+  if (strcmp (basename + suffix_pos, suffix)) {
+    tail_read_log_error ("Incorrect template name", EINVAL);
+    return 0;
+  }
+  if (suffix_pos + new_suffix_len + 1 >= tmpl_name_limit) {
+    tail_read_log_error ("Template name too long", ENOMEM);
+    return 0;
+  }
+  strncpy (tmpl_name, basename, suffix_pos);
+  strcpy (tmpl_name + suffix_pos, new_suffix);
+  return 1;
+}
+
 void
 gen_tmpl_log_tail (unsigned log_tail_len, const char *tmpl_name)
 {
