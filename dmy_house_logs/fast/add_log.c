@@ -65,9 +65,18 @@ main (void)
   char *env_http_referer;
 
   /* Since this is a POST command, read our query string from standard
-     input.  */
-  if (fgets (query_string, 4096, stdin) != NULL) {
-    cgi_s_parse_params (query_string, 4096, params, &params_len, 16, 0);
+     input.  Error out on overflow errors.  */
+  if (fgets (query_string, 4096, stdin) == NULL) {
+    write_log_error ("Error reading input parameters", errno, "");
+    return;
+  }
+  if (!feof (stdin)) {
+    write_log_error ("Input parameters too long", ENOMEM, "");
+    return;
+  }
+  if (!cgi_s_parse_params (query_string, 4096, params, &params_len, 16, 0)) {
+    write_log_error ("Too many input parameters", E2BIG, "");
+    return;
   }
 
   log_date_time = cgi_s_get_param (params, params_len, "log-date-time");
@@ -97,8 +106,11 @@ main (void)
   if (!log_action)
     log_action = "";
 
-  snprintf (log_entry, 4096, "%s: %s: %s\n",
-	    log_date_time, log_name, log_action);
+  if (snprintf (log_entry, 4096, "%s: %s: %s\n",
+		log_date_time, log_name, log_action) >= 4096) {
+    write_log_error ("Log entry too long", ENOMEM, log_entry);
+    return;
+  }
 
   /* Verify that input was not truncated.  */
   /* Verify all required parameters are provided.  */
