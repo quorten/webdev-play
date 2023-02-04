@@ -1,8 +1,8 @@
 CC = gcc
 CFLAGS = -g
 LDFLAGS =
-bin_PROGRAMS = test_dumb_cgipm view_logs.cgi laundry_logs.cgi \
-  log_tail.cgi view_logs_tail.cgi add_log.cgi
+bin_PROGRAMS = test_dumb_cgipm log_shell view_logs.cgi \
+  laundry_logs.cgi log_tail.cgi view_logs_tail.cgi add_log.cgi
 
 all: $(bin_PROGRAMS)
 
@@ -13,6 +13,12 @@ test_dumb_cgipm.o: test_dumb_cgipm.c dumb_cgipm.h
 	$(CC) $(CFLAGS) -c $<
 
 test_dumb_cgipm: test_dumb_cgipm.o dumb_cgipm.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
+log_shell.o: log_shell.c
+	$(CC) $(CFLAGS) -c $<
+
+log_shell: log_shell.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 view_logs.o: view_logs.c dumb_cgipm.h
@@ -64,8 +70,8 @@ uninstall:
 
 mostlyclean:
 	rm -f dumb_cgipm.o test_dumb_cgipm.o test_results.txt \
-	  view_logs.o laundry_logs.o tmpl_log_tail.o log_tail.o \
-	  view_logs_tail.o add_log.o
+	  log_shell.o view_logs.o laundry_logs.o tmpl_log_tail.o \
+	  log_tail.o view_logs_tail.o add_log.o
 
 clean: mostlyclean
 	rm -f $(bin_PROGRAMS)
